@@ -15,8 +15,6 @@ body {
 	font-family: "Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 }
 
-
-
 .boxTF {
 	border: 1px solid #999;
 	padding: 5px 5px;
@@ -97,39 +95,7 @@ body {
 	width: 7%;
 }
 
-.page-box {
-	clear: both;
-	padding: 20px 0;
-	text-align: center;
-}
-.paginate {
-	text-align: center;
-	white-space: nowrap;
-	font-size: 14px;	
-}
-.paginate a {
-	border: 1px solid #ccc;
-	color: #000;
-	font-weight: 600;
-	text-decoration: none;
-	padding: 3px 7px;
-	margin-left: 3px;
-	vertical-align: middle;
-}
-.paginate a:hover, .paginate a:active {
-	color: #6771ff;
-}
-.paginate span {
-	border: 1px solid #e28d8d;
-	color: #cb3536;
-	font-weight: 600;
-	padding: 3px 7px;
-	margin-left: 3px;
-	vertical-align: middle;
-}
-.paginate :first-child {
-	margin-left: 0;
-}
+
 
 </style>
 <jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>
