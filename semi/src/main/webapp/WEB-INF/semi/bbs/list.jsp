@@ -222,7 +222,7 @@ select {
 					<td>2022-04-22</td>
 					<td>10</td>
 				</tr>
-			</c:forEach>	
+			</c:forEach>
 			</table>
 			
 			<div class="page-box">
