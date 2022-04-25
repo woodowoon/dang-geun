@@ -17,13 +17,6 @@ main:before, main:after{
 	clear: both;	
 }
 
-main .container {
-	margin: 80px auto 50px;
-	width: 380px;
-	padding: 10px;
-	min-height: 200px; 
-}
-
 a { color: #222; text-decoration: none; cursor: pointer; }
 a:active, a:hover { color: #f28011; text-decoration: underline; }
 
@@ -159,15 +152,18 @@ tr.hover:hover { cursor: pointer; background: #f5fffa; }
 	text-align-last: center; 
 }
 
-.btn{
+.btn {
+	color: #fff;
+	border: 2px solid #FF8A3D;
 	background: #FF8A3D;
-	color:#fff;
-	border: none;
-	padding: 5px;
-	border-radius: 5px;
+	padding: 4px 10px;
+	border-radius: 4px;
+	font-weight: bold;
 	cursor: pointer;
+	font-size: 14px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;	
 }
-
 .title {
 	width: 100%;
 	font-size: 16px;
@@ -227,3 +223,7 @@ textarea:focus, input:focus { outline: none; }
 
 .clear { clear: both; }
 .clear:after { content:''; display:block; clear: both; }
+
+select {
+	text-align: center;
+}

@@ -10,26 +10,6 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style type="text/css">
-* {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-}
-
-botton {
-	border-style: none;
-}
-
-main {
-	width: 100%;
-}
-
-
-.container {
-	width: 100%;
-	margin: 40px auto;
-}
-
 .container .title {
 	margin-bottom: 15px;
 	color: #FF8A3D;
@@ -48,15 +28,15 @@ main {
 }
 
 .container table .border_btn {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #FF8A3D;
 }
 
 .container table .border_rgt {
-	border-right: 1px solid #eee;
+	border-right: 1px solid #FF8A3D;
 }
 
 .container table .border_last {
-	border-bottom: 2px solid #eee;
+	border-bottom: 2px solid #FF8A3D;
 }
 
 .container table td {
@@ -84,19 +64,6 @@ main {
 	display: flex;
 	justify-content: space-between;
 	margin: 5px 8px;
-}
-
-.btn {
-	color: #fff;
-	border: 2px solid #FF8A3D;
-	background: #FF8A3D;
-	padding: 4px 10px;
-	border-radius: 4px;
-	font-weight: bold;
-	cursor: pointer;
-	font-size: 14px;
-	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
-	vertical-align: baseline;	
 }
 
 

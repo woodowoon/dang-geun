@@ -14,6 +14,7 @@ function memberOk(){
 	const f = document.memberForm;
 }
 </script>
+
 <jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>
 </head>
 

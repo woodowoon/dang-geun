@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,31 +10,12 @@
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <style type="text/css">
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
 body {
 	font-size: 14px;
 	font-family: "Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 }
 
-a { color: #222; text-decoration: none; cursor: pointer; }
 
-.btn {
-	color: #fff;
-	border: 2px solid #FF8A3D;
-	background: #FF8A3D;
-	padding: 4px 10px;
-	border-radius: 4px;
-	font-weight: bold;
-	cursor: pointer;
-	font-size: 14px;
-	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
-	vertical-align: baseline;	
-}
 
 .boxTF {
 	border: 1px solid #999;
@@ -53,10 +34,6 @@ a { color: #222; text-decoration: none; cursor: pointer; }
 	border-radius: 4px;
 	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
 	vertical-align: baseline;
-}
-
-select {
-	text-align: center;
 }
 
 .table {
@@ -80,14 +57,6 @@ select {
 .board {
 	margin: 30px auto;
 	width: 100%;
-}
-
-.title {
-	width: 100%;
-	font-size: 16px;
-	font-weight: bold;
-	padding: 13px 0;
-	color: #FF8A3D;
 }
 
 .show-currentPage {
@@ -222,7 +191,7 @@ select {
 					<td>2022-04-22</td>
 					<td>10</td>
 				</tr>
-			</c:forEach>	
+			</c:forEach>
 			</table>
 			
 			<div class="page-box">

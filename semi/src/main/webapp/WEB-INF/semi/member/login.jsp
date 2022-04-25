@@ -43,7 +43,16 @@ function sendLogin() {
 }
 
 </script>
+<style type="text/css">
 
+main .container {
+	width:400px;
+	margin: 80px auto 50px;
+	padding: 10px;
+	min-height: 200px; 
+}
+
+</style>
 <title>sami</title>
 <jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>
 </head>
@@ -60,7 +69,7 @@ function sendLogin() {
 		</div>
 	
 		<div class="form-body">
-			<form name="loginForm" method="post" action="">
+			<form name="loginForm" method="post">
 				<table class="table">
 					<tr align="center"> 
 						<td> 
