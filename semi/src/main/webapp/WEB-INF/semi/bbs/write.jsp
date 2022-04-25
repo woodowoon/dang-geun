@@ -10,7 +10,7 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style type="text/css">
-
+/*
 .table-form td {
 	padding: 7px 0;
 	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
@@ -48,10 +48,6 @@
 	vertical-align: baseline;
 }
 
-.body-title {
-	padding: 50px 0px 20px 0; 
-}
-
 .form-control[readonly] { background-color:#FF8A3D; }
 
 textarea.form-control { height: 170px; resize : none; }
@@ -80,7 +76,7 @@ textarea:focus, input:focus { outline: none; }
 	margin-top: 20px;
 	
 }
-
+*/
 </style>
 
 <script type="text/javascript">
@@ -96,7 +92,7 @@ textarea:focus, input:focus { outline: none; }
 
 <main>
 	<div class="body-container" style="width: 700px;">
-		<div class="body-title">
+		<div class="title">
 			<h3><i class="fas fa-chalkboard-teacher"></i> 중고거래글쓰기 </h3>
 		</div>
         

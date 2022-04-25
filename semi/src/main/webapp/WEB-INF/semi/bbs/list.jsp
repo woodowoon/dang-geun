@@ -177,7 +177,7 @@ select {
 	<div class="body-container">
 		<div class="board">
 			<div class="title">
-				<h3><span>|</span> 당근 판매</h3>
+				<h3><i class="fa-solid fa-carrot"></i>당근 판매</h3>
 			</div>
 			
 			<table class="table">

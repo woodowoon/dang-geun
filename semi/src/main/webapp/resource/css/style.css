@@ -1,0 +1,230 @@
+@charset "UTF-8";
+/* 로그인 */
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+main {
+	width:100%;
+	text-align:left;
+}
+main:before, main:after{
+	content: "";
+	display: block;
+	clear: both;	
+}
+
+main .container {
+	margin: 80px auto 50px;
+	width: 380px;
+	padding: 10px;
+	min-height: 200px; 
+}
+
+a { color: #222; text-decoration: none; cursor: pointer; }
+a:active, a:hover { color: #f28011; text-decoration: underline; }
+
+.title-body {
+	padding: 10px 0; text-align: center;
+}
+
+.title-body .login-title {
+	font-weight: bold; font-size: 27px; cursor: pointer;
+	color : #FF8A3D;
+}
+
+.form-body {
+	text-align: center;
+}
+
+.form-body .lbl {
+	position: absolute; margin-left: 15px; margin-top: 15px; color: #999;
+}
+
+.form-body .inputTF {
+	width: 100%;
+	height: 45px;
+	padding: 5px;
+	padding-left: 15px;
+	border:1px solid #666;
+}
+
+.msg-box {
+	text-align: center; color: blue;
+}
+
+.form-control {
+	border: 1px solid #999; border-radius: 4px; background-color: #fff;
+	padding: 5px 5px; 
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+.form-control[readonly] { background-color:#f8f9fa; }
+
+textarea.form-control { height: 170px; resize : none; }
+
+.form-select {
+	border: 1px solid #999; border-radius: 4px; background-color: #fff;
+	padding: 4px 5px; 
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+.form-select[readonly] { background-color:#f8f9fa; }
+
+
+/* 회원가입 */
+
+.table { width: 100%; border-spacing: 0; border-collapse: collapse; }
+.table th, .table td { padding-top: 10px; padding-bottom: 10px; }
+tr.hover:hover { cursor: pointer; background: #f5fffa; }
+
+.left{ text-align: left; padding-left: 10px; }
+.right{ text-align: right; padding-right: 10px; }
+.center{ text-align: center; }
+
+.btnConfirm {
+	background-color:#FF8A3D;
+	border:none;
+	color:#fff;
+	width: 100%;
+	padding: 15px 0;
+	font-weight: 700; 
+	font-size: 15px;
+	cursor: pointer;
+	vertical-align: baseline;
+}
+
+.body-container {
+    margin: 0 auto 15px;
+    width: 800px;
+    min-height: 450px;
+}
+
+.body-container:before, .body-container:after{
+	content: "";
+	display: block;
+	clear: both;	
+}
+
+.table{
+	width: 100%;
+}
+
+.table-border{
+	border-collapse: collapse;
+	border-top: 3px solid #FF8A3D;
+	border-bottom: 3px solid #FF8A3D;
+}
+
+.table-form td {
+	padding : 7px 5px;
+	border-bottom: 1px solid #FF8A3D;
+}
+.table-form tr td:nth-child(2n+1) {
+	text-align: center;
+	font-weight: 600;
+	width: 20%;
+	border-right: 1px solid #FF8A3D;
+	background: #FF8A3D;
+	color: #fff;
+}
+.table-form tr td p{
+	padding-top: 3px;
+	
+}
+.form-control{
+	border: 1px solid #FF8A3D;
+	border-radius: 5px;
+	height: 30px;
+	width: 70%;
+}
+
+.form-control:focus{
+	outline : #FF8A3D;
+}
+
+.restrict{
+	color: #aaa;
+	font-size:12px;
+}
+
+.form-select{
+	width: 11%;
+	height: 30px;
+	border: 1px solid #FF8A3D;
+	border-radius: 5px;
+	text-align: center;
+	text-align-last: center; 
+}
+
+.btn{
+	background: #FF8A3D;
+	color:#fff;
+	border: none;
+	padding: 5px;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+
+.title {
+	width: 100%;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 13px 0;
+	color: #FF8A3D;
+}
+
+.table-form td {
+	padding: 7px 0;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+}
+
+.table-form p {
+	line-height: 200%;
+}
+
+.table-form tr:first-child {
+    border-top: 2px solid #FF8A3D;
+}
+
+.table-form tr > td:nth-child(2) {
+	padding-left: 10px;
+}
+
+.table-form input[type=text], .table-form input[type=file], .table-form textarea {
+	width: 96%;
+}
+
+.table-form tr>td {
+	padding: 7px 0;
+}
+
+.table-form tr>td:first-child {
+	width: 110px; text-align: center; background: #FF8A3D;
+	color: #fff;
+}
+
+.form-control {
+	border: 1px solid #999; border-radius: 4px; background-color: #fff;
+	padding: 5px 5px; 
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: middle;
+}
+
+.form-control[readonly] { background-color:#FF8A3D; }
+
+textarea.form-control { height: 170px; resize : none; }
+textarea:focus, input:focus { outline: none; }
+
+.table { width: 100%; border-spacing: 0; border-collapse: collapse; }
+.table th, .table td { 
+	padding-top: 10px; padding-bottom: 10px; 
+}
+
+.td-border td { border: 1px solid #FF8A3D; }
+
+.clear { clear: both; }
+.clear:after { content:''; display:block; clear: both; }
