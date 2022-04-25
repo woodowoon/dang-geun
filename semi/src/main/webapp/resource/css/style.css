@@ -32,7 +32,7 @@ a:active, a:hover { color: #f28011; text-decoration: underline; }
 }
 
 .title-body .login-title {
-	font-weight: bold; font-size: 27px; cursor: pointer;
+	font-weight: bold; font-size: 27px;
 	color : #FF8A3D;
 }
 
@@ -138,7 +138,6 @@ tr.hover:hover { cursor: pointer; background: #f5fffa; }
 .form-control{
 	border: 1px solid #FF8A3D;
 	border-radius: 5px;
-	height: 30px;
 	width: 70%;
 }
 
@@ -166,7 +165,7 @@ tr.hover:hover { cursor: pointer; background: #f5fffa; }
 	border: none;
 	padding: 5px;
 	border-radius: 5px;
-	margin-top: 20px;
+	cursor: pointer;
 }
 
 .title {
