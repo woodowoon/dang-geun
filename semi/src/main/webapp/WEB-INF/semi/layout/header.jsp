@@ -20,19 +20,19 @@
 	<div class="menu">
 		<ul class="nav">
 			<li>
-				<a href="${pageContext.request.contextPath}/bbs/list.do">판매</a>
+				<a href="${pageContext.request.contextPath}/sell/list.do">판매</a>
 			</li>
 			<li>
-				<a href="#">커뮤니티</a>
+				<a href="${pageContext.request.contextPath}/community/list.do">커뮤니티</a>
 			</li>
 			<li>
-				<a href="#">무료나눔</a>
+				<a href="${pageContext.request.contextPath}/share/list.do">무료나눔</a>
 			</li>
 			<li class="notice">
-				<a href="#">공지사항</a>
+				<a href="${pageContext.request.contextPath}/notice/list.do">공지사항</a>
 				<ul>
 					<li>
-						<a href="#">자주묻는 질문</a>
+						<a href="${pageContext.request.contextPath}/FAQ/list.do">자주묻는 질문</a>
 					</li>
 					<li>
 						<a href="#">이벤트</a>
