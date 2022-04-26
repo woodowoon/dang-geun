@@ -10,11 +10,6 @@
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <style type="text/css">
-body {
-	font-size: 14px;
-	font-family: "Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
-}
-
 .boxTF {
 	border: 1px solid #999;
 	padding: 5px 5px;
