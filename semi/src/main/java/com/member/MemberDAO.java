@@ -19,7 +19,7 @@ public class MemberDAO {
 		
 		try {
 			
-			sb.append(" SELECT userId, uPwd, reg_date, uNick FROM member ");
+			sb.append(" SELECT userId, uPwd, reg_date, uNick, rCode FROM member ");
 			sb.append(" WHERE userId = ? AND uPwd = ? ");
 			
 			pstmt = conn.prepareStatement(sb.toString());
@@ -36,6 +36,7 @@ public class MemberDAO {
 				dto.setuPwd(rs.getString("uPwd"));
 				dto.setuNick(rs.getString("uNick"));
 				dto.setReg_date(rs.getString("reg_date"));
+				dto.setrCode(rs.getInt("rCode"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

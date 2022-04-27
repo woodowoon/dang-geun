@@ -8,9 +8,10 @@ public class MemberDTO {
 	private String uTel, uTel1, uTel2, uTel3;
 	private String reg_date;
 	private String photoName;
+	private int rCode;
 	
 	private int enabled;
-	
+
 	public String getUserId() {
 		return userId;
 	}
@@ -91,6 +92,14 @@ public class MemberDTO {
 		this.photoName = photoName;
 	}
 
+	public int getrCode() {
+		return rCode;
+	}
+
+	public void setrCode(int rCode) {
+		this.rCode = rCode;
+	}
+
 	public int getEnabled() {
 		return enabled;
 	}
@@ -98,6 +107,7 @@ public class MemberDTO {
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
 	}
-
+	
+	
 	
 }
