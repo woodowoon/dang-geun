@@ -5,11 +5,12 @@ public class MemberDTO {
 	private String uName;
 	private String uPwd;
 	private String uNick;
-	private String uTel, uTel1, uTel2, uTel3;
+	private String uTel;
 	private String reg_date;
 	private String photoName;
 	private int rCode;
-	
+	private int uRole;
+
 	private int enabled;
 
 	public String getUserId() {
@@ -52,30 +53,6 @@ public class MemberDTO {
 		this.uTel = uTel;
 	}
 
-	public String getuTel1() {
-		return uTel1;
-	}
-
-	public void setuTel1(String uTel1) {
-		this.uTel1 = uTel1;
-	}
-
-	public String getuTel2() {
-		return uTel2;
-	}
-
-	public void setuTel2(String uTel2) {
-		this.uTel2 = uTel2;
-	}
-
-	public String getuTel3() {
-		return uTel3;
-	}
-
-	public void setuTel3(String uTel3) {
-		this.uTel3 = uTel3;
-	}
-
 	public String getReg_date() {
 		return reg_date;
 	}
@@ -100,6 +77,14 @@ public class MemberDTO {
 		this.rCode = rCode;
 	}
 
+	public int getuRole() {
+		return uRole;
+	}
+
+	public void setuRole(int uRole) {
+		this.uRole = uRole;
+	}
+
 	public int getEnabled() {
 		return enabled;
 	}
@@ -107,7 +92,7 @@ public class MemberDTO {
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
 	}
-	
+
 	
 	
 }
