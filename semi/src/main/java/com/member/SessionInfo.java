@@ -21,17 +21,17 @@ public class SessionInfo {
 	public void setuName(String uName) {
 		this.uName = uName;
 	}
-	public int getUrole() {
-		return uRole;
-	}
-	public void setUrole(int urole) {
-		this.uRole = urole;
-	}
 	public String getuNick() {
 		return uNick;
 	}
 	public void setuNick(String uNick) {
 		this.uNick = uNick;
+	}
+	public String getuPwd() {
+		return uPwd;
+	}
+	public void setuPwd(String uPwd) {
+		this.uPwd = uPwd;
 	}
 	public int getrCode() {
 		return rCode;
@@ -39,10 +39,18 @@ public class SessionInfo {
 	public void setrCode(int rCode) {
 		this.rCode = rCode;
 	}
+	public int getuRole() {
+		return uRole;
+	}
+	public void setuRole(int uRole) {
+		this.uRole = uRole;
+	}
 	public String getPhotoName() {
 		return photoName;
 	}
 	public void setPhotoName(String photoName) {
 		this.photoName = photoName;
 	}
+	
+	
 }

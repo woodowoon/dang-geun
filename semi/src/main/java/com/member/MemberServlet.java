@@ -61,6 +61,10 @@ public class MemberServlet extends SemiServlet {
 			info.setUserId(dto.getUserId());
 			info.setuNick(dto.getuNick());
 			info.setrCode(dto.getrCode());
+			info.setuName(dto.getuName());
+			info.setuPwd(dto.getuPwd());
+			info.setuRole(dto.getuRole());
+			info.setPhotoName(dto.getPhotoName());
 			
 			session.setAttribute("member", info);
 			
