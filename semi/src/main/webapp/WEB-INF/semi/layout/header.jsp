@@ -35,7 +35,7 @@
 						<a href="${pageContext.request.contextPath}/FAQ/list.do">자주묻는 질문</a>
 					</li>
 					<li>
-						<a href="#">이벤트</a>
+						<a href="${pageContext.request.contextPath}/event/list.do">이벤트</a>
 					</li>
 				</ul>
 			</li>
