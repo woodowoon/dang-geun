@@ -98,6 +98,7 @@ public class sellServlet extends MyUploadServlet {
 				current_page = total_page;
 			}
 			
+			
 			int start = (current_page - 1) * rows + 1;
 			int end = current_page * rows;
 						
