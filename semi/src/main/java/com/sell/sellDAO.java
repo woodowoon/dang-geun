@@ -83,7 +83,7 @@ public class sellDAO {
 			
 			pstmt.setInt(1, dto.getCode());
 			pstmt.setString(2, dto.getUserId());
-			pstmt.setInt(3, dto.getrCode());
+			pstmt.setString(3, dto.getrCode());
 			pstmt.setString(4, dto.getSubject());
 			pstmt.setString(5, dto.getContent());
 			pstmt.setInt(6, dto.getPrice());
@@ -163,7 +163,7 @@ public class sellDAO {
 		return result;
 	}
 	
-	public int dataCount(int rCode, String keyword) {
+	public int dataCount(String rCode, String keyword) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -171,11 +171,11 @@ public class sellDAO {
 		
 		try {
 			sql = " SELECT COUNT(*) FROM item ";
-			if(rCode != 0 && keyword != "") {
+			if((! rCode.equals("0")) && keyword != "") {
 				sql += " WHERE rCode = ? AND INSTR(subject, ?) >= 1 AND status <> 2"; 
 			} else if(keyword != "") {
 				sql += " WHERE INSTR(subject, ?) >= 1 AND status <> 2";
-			} else if(rCode != 0) {
+			} else if((! rCode.equals("0"))) {
 				sql += " WHERE rCode = ? AND status <> 2";
 			} else {
 				sql += " WHERE status <> 2";
@@ -183,13 +183,13 @@ public class sellDAO {
 				
 			pstmt = conn.prepareStatement(sql);
 			
-			if(rCode != 0 && keyword != "") {
-				pstmt.setInt(1, rCode);
+			if((! rCode.equals("0")) && keyword != "") {
+				pstmt.setString(1, rCode);
 				pstmt.setString(2, keyword);
 			} else if(keyword != "") {
 				pstmt.setString(1, keyword);
-			} else if(rCode != 0) {
-				pstmt.setInt(1, rCode);
+			} else if((! rCode.equals("0"))) {
+				pstmt.setString(1, rCode);
 			}
 			
 			rs = pstmt.executeQuery();
@@ -280,7 +280,7 @@ public class sellDAO {
 		return list;
 	}
 	
-	public List<sellDTO> listsell(int start, int end, int rCode, String keyword) {
+	public List<sellDTO> listsell(int start, int end, String rCode, String keyword) {
 		List<sellDTO> list = new ArrayList<sellDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -299,9 +299,9 @@ public class sellDAO {
 			sb.append(" 			)tb1 WHERE rnum = 1 "); 
 			sb.append(" 		)P ON i.code = p.code "); 
 			sb.append("		  	WHERE status <> 2 ");
-			if(rCode != 0 && keyword != "") {
+			if((! rCode.equals("0")) && keyword != "") {
 				sb.append(" 		AND rCode = ? AND INSTR(subject, ?) >= 1 ");
-			} else if(rCode == 0) {
+			} else if(rCode.equals("0")) {
 				sb.append("			AND INSTR(subject, ?) >= 1 ");
 			} else {
 				sb.append("			AND rCode = ? ");
@@ -312,17 +312,17 @@ public class sellDAO {
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
-			if(rCode != 0 && keyword != "") {
-				pstmt.setInt(1, rCode);
+			if((! rCode.equals("0")) && keyword != "") {
+				pstmt.setString(1, rCode);
 				pstmt.setString(2, keyword);
 				pstmt.setInt(3, end);
 				pstmt.setInt(4, start);
-			} else if(rCode == 0) {
+			} else if(rCode.equals("0")) {
 				pstmt.setString(1, keyword);
 				pstmt.setInt(2, end);
 				pstmt.setInt(3, start);
 			} else {
-				pstmt.setInt(1, rCode);
+				pstmt.setString(1, rCode);
 				pstmt.setInt(2, end);
 				pstmt.setInt(3, start);
 			}
@@ -409,7 +409,7 @@ public class sellDAO {
 				dto.setCode(rs.getInt("code"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setuNick(rs.getString("uNick"));
-				dto.setrCode(rs.getInt("rCode"));
+				dto.setrCode(rs.getString("rCode"));
 				dto.setrName(rs.getString("rName"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
@@ -533,7 +533,7 @@ public class sellDAO {
 			
 			pstmt.setString(1, dto.getSubject());
 			pstmt.setInt(2, dto.getPrice());
-			pstmt.setInt(3, dto.getrCode());
+			pstmt.setString(3, dto.getrCode());
 			pstmt.setString(4, dto.getContent());
 			pstmt.setInt(5, dto.getCode());
 			

@@ -63,8 +63,8 @@ public class sellServlet extends MyUploadServlet {
 		sellDAO dao = new sellDAO();
 		MyUtil util = new MyUtil();
 		String cp = req.getContextPath();
-//		HttpSession session = req.getSession();
-//		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		try {
 			List<regionDTO> regionList = null;
@@ -81,13 +81,13 @@ public class sellServlet extends MyUploadServlet {
 			// 로그인한 경우 회원의 지역을 기본값으로 두었더니 페이징 처리시 다시 회원지역으로 넘어가는 오류 발생
 			// 해결 로직을 찾지 못하여 rCode = 0으로 일단 변경 
 			
-			//int rCode = info == null ? 0 : info.getrCode();
-			int rCode = 0;
-			if(req.getParameter("rCode") != null) {
-				rCode = Integer.parseInt(req.getParameter("rCode"));
+			String rCode = req.getParameter("rCode");	
+			String keyword = req.getParameter("keyword");
+			
+			if(rCode == null) {
+				rCode = info == null ? "0" : Integer.toString(info.getrCode());
 			}
 			
-			String keyword = req.getParameter("keyword");
 			if(keyword == null) {
 				keyword = "";
 			}
@@ -99,7 +99,7 @@ public class sellServlet extends MyUploadServlet {
 			int rows = 10;
 			int dataCount, total_page;
 			
-			if(keyword.length() == 0 && rCode == 0) {
+			if(keyword.length() == 0 && rCode.equals("0")) {
 				dataCount = dao.dataCount();
 			} else {
 				dataCount = dao.dataCount(rCode, keyword);
@@ -115,7 +115,7 @@ public class sellServlet extends MyUploadServlet {
 			int end = current_page * rows;
 						
 			List<sellDTO> list = null;
-			if(keyword.length() == 0 && rCode == 0) {
+			if(keyword.length() == 0 && rCode.equals("0")) {
 				list = dao.listsell(start, end);
 			} else {
 				list = dao.listsell(start, end, rCode, keyword);
@@ -129,22 +129,21 @@ public class sellServlet extends MyUploadServlet {
 				n++;
 			}
 			
-			String query = "";
-			String listUrl, articleUrl;
+			String query = "rCode=" + rCode;
+			if(keyword.length() != 0) {
+				query += "&keyword="+URLEncoder.encode(keyword, "utf-8");	
+			}
 			
-			listUrl = cp+"/sell/list.do";
-			articleUrl = cp+"/sell/article.do?page="+current_page;
-			
-			//if(keyword.length() != 0) {
-				query="rCode="+rCode+"&keyword="+URLEncoder.encode(keyword, "utf-8");
-				
-				
+			String listUrl = cp+"/sell/list.do";
+			String articleUrl = cp+"/sell/article.do?page="+current_page;
+			if(query.length() != 0) {
 				listUrl += "?" + query;
 				articleUrl += "&" + query;
+			}
 //				System.out.println(listUrl);
 //				System.out.println(articleUrl);
 //				System.out.println(query);
-			//}
+			
 			
 			String paging = util.paging(current_page, total_page, listUrl);
 			
@@ -263,7 +262,7 @@ public class sellServlet extends MyUploadServlet {
 		try {
 			sellDTO dto = new sellDTO();
 			dto.setUserId(info.getUserId());
-			dto.setrCode(Integer.parseInt(req.getParameter("rCode")));
+			dto.setrCode(req.getParameter("rCode"));
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
 			dto.setPrice(Integer.parseInt(req.getParameter("price")));
@@ -335,7 +334,7 @@ public class sellServlet extends MyUploadServlet {
 		try {
 			sellDTO dto = new sellDTO();
 			dto.setCode(Integer.parseInt(req.getParameter("code")));
-			dto.setrCode(Integer.parseInt(req.getParameter("rCode")));
+			dto.setrCode(req.getParameter("rCode"));
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
 			dto.setPrice(Integer.parseInt(req.getParameter("price")));
