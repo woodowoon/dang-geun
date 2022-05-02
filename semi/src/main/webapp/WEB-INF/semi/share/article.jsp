@@ -6,7 +6,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>semi-나눔글</title>
+<jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery/css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.0/css/all.css">
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style type="text/css">
@@ -14,6 +17,7 @@
 	margin-bottom: 15px;
 	color: #FF8A3D;
 }
+
 
 .container .title span {
 	margin-bottom: 15px;
@@ -38,7 +42,6 @@
 .container table .border_last {
 	border-bottom: 2px solid #FF8A3D;
 }
-
 .container table td {
 	padding: 5px 8px;
 }
@@ -59,7 +62,35 @@
 	text-align: right;
 }
 
+.ui-widget-header { 
+	background: none;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0;
+}
+.ui-dialog .ui-dialog-title {
+	padding-top: 5px; padding-bottom: 5px;
+}
+.ui-widget-content { 
+   border-color: #ccc; 
+}
 
+.img-box {
+	max-width: 700px;
+	padding: 5px;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	display: flex; /* 자손요소를 flexbox로 변경 */
+	flex-direction: row; /* 정방향 수평나열 */
+	flex-wrap: nowrap;
+	overflow-x: auto;
+}
+.img-box img {
+	width: 300px;
+	margin-right: 5px;
+	flex: 0 0 auto;
+	cursor: pointer;
+}
 .container .button {
 	display: flex;
 	justify-content: space-between;
@@ -68,7 +99,32 @@
 
 
 </style>
-<jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+function deleteShare() {
+    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
+	    let query = "code=${dto.code}&page=${page}";
+	    let url = "${pageContext.request.contextPath}/share/delete.do?" + query;
+    	location.href = url;
+    }
+}
+
+function imageViewer(img) {
+	const viewer = $(".photo-layout");
+	let s="<img src='"+img+"'>";
+	viewer.html(s);
+	
+	$(".dialog-photo").dialog({
+		title:"이미지",
+		width: 600,
+		height: 530,
+		modal: true
+	});
+}
+
+</script>
+
 </head>
 <body>
 
@@ -86,45 +142,69 @@
 		<table>
 			<tr class="border_btn">
 				<td class="border_rgt t_header">제목</td>
-				<td colspan="3">한달 사용한 모니터 팝니다.</td>
+				<td colspan="3">${dto.subject}</td>
 			</tr>
 			<tr class="border_btn">
 				<td class="border_rgt t_header">닉네임</td>
-				<td width="35%" class="border_rgt">홍길동</td>
+				<td width="25%" class="border_rgt">${dto.uNick}</td>
 				<td class="border_rgt t_header">지역</td>
-				<td width="35%">서울</td>
-			</tr>
-			<tr class="border_btn">
-				<td class="border_rgt t_header">가격</td>
-				<td class="border_rgt">50000원</td>
+				<td width="25%">${dto.rCode_name}</td>
 				<td class="border_rgt t_header">조회수</td>
-				<td>5</td>
+				<td>${dto.hitCount}</td>
 			</tr>
 			<tr>
 				<td rowspan="2" class="border_rgt t_header">내용</td>
-				<td colspan="3" class="content"><img alt="첨부이미지" src="monitor.jpg"></td>
+				<td colspan="3" class="content">
+					<div class="img-box">
+						<c:forEach var="vo" items="${listFile}">
+							<img src="${pageContext.request.contextPath}/uploads/share/${vo.photoName}"
+								onclick="imageViewer('${pageContext.request.contextPath}/uploads/share/${vo.photoName}');">
+						</c:forEach>
+					</div>
+				</td>
 			</tr>
 			<tr class="border_last">
-				<td colspan="3" class="content">모니터 팝니다. 오만원</td>
+				<td colspan="3" class="content">${dto.content}</td>
 			</tr>
 			<tr>
-				<td colspan="4" class="reg_date">2022.04.22</td>
+				<td colspan="6" class="reg_date">${dto.reg_date}</td>
 			</tr>
 		</table>
 		<div class="button">
 			<div class="btn_left">
-				<button type="button" class="btn">수정</button>
-				<button type="button" class="btn">삭제</button>
+			
+			<c:choose>
+				<c:when test="${sessionScope.member.userId==dto.userId}">
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/share/update.do?code=${dto.code}&page=${page}';">수정</button>
+				</c:when>
+				<c:otherwise>
+					<button type="button" class="btn">나눔신청</button>
+				</c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.uRole==1}">
+					<button type="button" class="btn" onclick="deleteShare();">삭제</button>
+				</c:when>
+				<c:otherwise>
+			    	
+			    </c:otherwise>
+			</c:choose>
 			</div>
-			<button type="button" class="btn">리스트</button>
+			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/share/list.do';">리스트</button>
 		</div>
 	</div>
 </div>
 </main>
 
+<div class="dialog-photo">
+      <div class="photo-layout"></div>
+</div>
+
+
 <footer>
 	<jsp:include page="/WEB-INF/semi/layout/footer.jsp"></jsp:include>
 </footer>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery-ui.min.js"></script>
 
 </body>
 </html>

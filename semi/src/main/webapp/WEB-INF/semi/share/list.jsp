@@ -7,16 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <!--리스트 : 제품 사진 / 제품 명 / 판매 가격 / 등록일 / 조회수  -->
-<title>Insert title here</title>
+<title>semi-나눔</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <style type="text/css">
-body {
-	font-size: 14px;
-	font-family: "Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
-}
-
-
-
 .boxTF {
 	border: 1px solid #999;
 	padding: 5px 5px;
@@ -85,10 +78,6 @@ body {
 	width: 20%;
 }
 
-.table-list .price {
-	width: 15%;
-}
-
 .table-list .date {
 	width: 13%;
 }
@@ -132,6 +121,14 @@ body {
 }
 
 </style>
+<script type="text/javascript">
+function searchList() {
+	const f = document.searchForm;
+	f.submit();
+}
+
+</script>
+
 <jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>
 </head>
 
@@ -146,56 +143,60 @@ body {
 	<div class="body-container">
 		<div class="board">
 			<div class="title">
-				<h3><i class="fa-solid fa-carrot"></i>당근 판매</h3>
+				<h3><i class="fa-solid fa-carrot"></i>당근 나눔</h3>
 			</div>
-			
+			<form name="searchForm" action="${pageContext.request.contextPath}/share/list.do" method="post">
+				<table class="table">
+					<tr>
+						<td align="left">
+							<select name="rCode" class="selectField">
+								<option value="0">::전체::</option>
+								<c:forEach var="vo" items="${regionList}">
+									<option value="${vo.rCode}" 
+										    ${rCode == vo.rCode ? "selected='selected'" : ""}>
+										${vo.rCode_name}
+									</option>
+								</c:forEach>
+							</select>
+							<input type="text" name="keyword" value="${keyword}" class="boxTF">
+							<button type="button" class="btn" onclick="searchList();">검색</button>
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/share/list.do';">새로고침</button>
+						</td>
+						<td align="right">
+							<button type="button" class="btn sell-btn" onclick="location.href='${pageContext.request.contextPath}/share/write.do';">나눔등록</button>
+						</td>
+					</tr>
+				</table>
+			</form>
 			<table class="table">
 				<tr>
-					<td align="left">
-						<select name="condition" class="selectField">
-							<option value="all">::지역::</option>
-						</select>
-						<input type="text" name="keyword" value="" class="boxTF">
-						<button type="button" class="btn">검색</button>
-						<button type="button" class="btn">새로고침</button>
-					</td>
-					<td align="right">
-						<button type="button" class="btn sell-btn" onclick="location.href='${pageContext.request.contextPath}/bbs/write.do';">판매등록</button>
-					</td>
-				</tr>
-			</table>
-			
-			<table class="table">
-				<tr>
-					<td class="show-currentPage">(1/3)페이지</td>
+					<td class="show-currentPage">(${current_page}/${total_page})페이지</td>
 				</tr>
 			</table>
 			
 			<table class="table table-border table-list">
 				<tr>
 					<th class="num">번호</th>
-					<th class="photo">제품 사진</th>
-					<th class="name">제품 명</th>
-					<th class="price">판매 가격</th>
+					<th class="photo">제목</th>
+					<th class="name">작성자</th>
 					<th class="date">등록일</th>
 					<th class="hit">조회수</th>
 				</tr>
-			<c:forEach var="a" begin="1" end="10">
+			<c:forEach var="dto" items="${list}">
 				<tr>
-					<td>${a}</td>
+					<td>${dto.listNum}</td>
 					<td>
-						<a href="${pageContext.request.contextPath}/bbs/article.do">사진더미</a>
+						<a href="${articleUrl}&code=${dto.code}">[${dto.rCode_name}]&nbsp;${dto.subject}</a>
 					</td>
-					<td>제품 더미</td>
-					<td>1,000,000</td>
-					<td>2022-04-22</td>
-					<td>10</td>
+					<td>${dto.uNick}</td>
+					<td>${dto.reg_date}</td>
+					<td>${dto.hitCount}</td>
 				</tr>
 			</c:forEach>
 			</table>
 			
 			<div class="page-box">
-				페이지 박스
+				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 			</div>
 		</div>
 	</div>
