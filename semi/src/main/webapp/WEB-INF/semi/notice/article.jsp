@@ -108,7 +108,7 @@ function deleteNotice() {
 			</tr>
 			<tr class="border_btn">
 				<td class="border_rgt t_header">닉네임</td>
-				<td width="30%" class="border_rgt">${sessionScope.member.uNick}</td>
+				<td width="30%" class="border_rgt">${dto.uNick}</td>
 				<td class="border_rgt t_header">조회 | 등록일</td>
 				<td>${dto.hitCount} | ${dto.reg_date}</td>
 			</tr>
