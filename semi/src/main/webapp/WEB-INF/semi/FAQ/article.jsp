@@ -134,21 +134,35 @@ function deleteFAQ(){
 				<td class="border_rgt t_header">이전글
 				</td>
 				<td colspan="2">
-					<a  href="${pageContext.request.contextPath}/FAQ/article.do?${query}&fNum=${preReadFAQ.fNum}">${preReadFAQ.subject}</a>				
+					<c:choose>
+						<c:when test="${preReadFAQ.subject == null}">
+							<span>가장 최신 글 입니다.</span>
+						</c:when>
+						<c:otherwise>
+							<a  href="${pageContext.request.contextPath}/FAQ/article.do?${query}&fNum=${preReadFAQ.fNum}">${preReadFAQ.subject}</a>				
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 			<tr class="border_btn preNext" style="border-bottom: 2px solid #FF8A3D;">
 				<td class="border_rgt t_header">다음글
 				</td>
 				<td colspan="2">
-					<a href="${pageContext.request.contextPath}/FAQ/article.do?${query}&fNum=${nextReadFAQ.fNum}">${nextReadFAQ.subject}</a>
+					<c:choose>
+						<c:when test="${nextReadFAQ.subject == null }">
+							<span>가장 마지막 글 입니다.</span>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath}/FAQ/article.do?${query}&fNum=${nextReadFAQ.fNum}">${nextReadFAQ.subject}</a>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr> 
 		</table>
 		<div class="button">
 			<div class="btn_left">
 			<c:choose>
-				<c:when test="${sessionScope.member.userId=='admin'}">
+				<c:when test="${sessionScope.member.uRole== 1}">
 					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/FAQ/update.do?fNum=${dto.fNum}&page=${page}';">수정</button>
 				</c:when>
 				<c:otherwise>
@@ -156,7 +170,7 @@ function deleteFAQ(){
 				</c:otherwise>
 			</c:choose>
 			<c:choose>
-				<c:when test="${sessionScope.member.userId=='admin'}">
+				<c:when test="${sessionScope.member.uRole== 1}">
 					<button type="button" class="btn" onclick="deleteFAQ()">삭제</button>
 				</c:when>
 				<c:otherwise>
