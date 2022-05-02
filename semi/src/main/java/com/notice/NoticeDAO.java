@@ -184,7 +184,7 @@ public class NoticeDAO {
 		try {
 			sb.append("SELECT * FROM ( " );
 			sb.append(" SELECT ROWNUM rnum, tb. * FROM ( ");
-			sb.append("   SELECT nNum, n.userId, subject, content, n.reg_date, hitCount, notice ");
+			sb.append("   SELECT nNum, n.userId, uNick, subject, content, n.reg_date, hitCount, notice ");
 			sb.append("   FROM notice n ");
 			sb.append("   JOIN member m ON n.userId = m.userId ");
 			sb.append("  ORDER BY nNum DESC ");
@@ -201,6 +201,7 @@ public class NoticeDAO {
 				
 				dto.setnNum(rs.getInt("nNum"));
 				dto.setUserId(rs.getString("userId"));
+				dto.setuNick(rs.getString("uNick"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setReg_date(rs.getString("reg_date"));
 				dto.setHitCount(rs.getInt("hitCount"));
@@ -241,7 +242,7 @@ public class NoticeDAO {
 		try {
 			sb.append("SELECT * FROM ( " );
 			sb.append(" SELECT ROWNUM rnum, tb. * FROM ( ");
-			sb.append("   SELECT nNum, n.userId, subject, content, n.reg_date, hitCount, notice ");
+			sb.append("   SELECT nNum, n.userId, uNick, subject, content, n.reg_date, hitCount, notice ");
 			sb.append("   FROM notice n ");
 			sb.append("   JOIN member m ON n.userId = m.userId ");
 			if(condition.equals("all")) {
@@ -276,6 +277,7 @@ public class NoticeDAO {
 				
 				dto.setnNum(rs.getInt("nNum"));
 				dto.setUserId(rs.getString("userId"));
+				dto.setuNick(rs.getString("uNick"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setReg_date(rs.getString("reg_date"));
 				dto.setHitCount(rs.getInt("hitCount"));
@@ -314,7 +316,7 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT nNum, n.userId, subject, content, hitCount, notice, "
+			sql = "SELECT nNum, n.userId, uNick, subject, content, hitCount, notice, "
 					+ "  TO_CHAR(n.reg_date, 'YYYY-MM-DD') reg_date "
 					+ " FROM notice n "
 					+ " JOIN member m ON n.userId = m.userId "
@@ -330,6 +332,7 @@ public class NoticeDAO {
 				
 				dto.setnNum(rs.getInt("nNum"));
 				dto.setUserId(rs.getString("userId"));
+				dto.setuNick(rs.getString("uNick"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
@@ -366,7 +369,7 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT nNum, n.userId, subject, content, n.reg_date, hitCount, notice "
+			sql = "SELECT nNum, n.userId, uNick, subject, content, n.reg_date, hitCount, notice "
 					+ " FROM notice n "
 					+ " JOIN member m ON n.userId = m.userId "
 					+ " WHERE nNum = ?";
@@ -380,6 +383,7 @@ public class NoticeDAO {
 				
 				dto.setnNum(rs.getInt("nNum"));
 				dto.setUserId(rs.getString("userId"));
+				dto.setuNick(rs.getString("uNick"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
 				dto.setHitCount(rs.getInt("hitCount"));

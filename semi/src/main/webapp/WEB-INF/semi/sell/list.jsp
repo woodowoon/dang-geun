@@ -123,15 +123,9 @@ function searchList() {
 							<select name="rCode" class="selectField">
 								<option value="0">::전체::</option>
 								<c:forEach var="dto" items="${regionList}">
-									<option value="${dto.rCode}" ${rCode == dto.rCode ? "selected='selected'" : ""}
-										<c:choose>
-											<c:when test="${rCode eq 0}">
-												${sessionScope.member.rCode == dto.rCode ? "selected='selected'" : ""}
-											</c:when>
-											<c:otherwise>
-												${rCode == dto.rCode ? "selected='selected'" : ""}
-											</c:otherwise>
-										</c:choose>>${dto.rName}
+									<option value="${dto.rCode}" 
+										    ${rCode == dto.rCode ? "selected='selected'" : ""}>
+										${dto.rName}
 									</option>
 								</c:forEach>		
 							</select>

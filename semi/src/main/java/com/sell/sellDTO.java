@@ -7,7 +7,7 @@ public class sellDTO {
 	private String subject;
 	private int price;
 	private String content;
-	private int rCode;
+	private String rCode;
 	private String rName;
 	private String reg_date;
 	private int hitCount;
@@ -67,11 +67,11 @@ public class sellDTO {
 		this.content = content;
 	}
 
-	public int getrCode() {
+	public String getrCode() {
 		return rCode;
 	}
 
-	public void setrCode(int rCode) {
+	public void setrCode(String rCode) {
 		this.rCode = rCode;
 	}
 

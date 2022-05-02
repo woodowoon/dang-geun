@@ -3,6 +3,7 @@ package com.notice;
 public class NoticeDTO {
 	private int listNum;
 	private int nNum;
+	private String uNick;
 	private String userId;
 	private String subject;
 	private String content;
@@ -101,6 +102,12 @@ public class NoticeDTO {
 	}
 	public void setOriginalFiles(String[] originalFiles) {
 		this.originalFiles = originalFiles;
+	}
+	public String getuNick() {
+		return uNick;
+	}
+	public void setuNick(String uNick) {
+		this.uNick = uNick;
 	}
 	
 	
