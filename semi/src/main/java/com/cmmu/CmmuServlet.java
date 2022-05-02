@@ -297,10 +297,10 @@ public class CmmuServlet extends MyUploadServlet {
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
 		String query = "page=" + page;
-		
+		/*
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
+		*/
 		try {
 			int num = Integer.parseInt(req.getParameter("num"));
 			
@@ -325,10 +325,12 @@ public class CmmuServlet extends MyUploadServlet {
 				return;
 			}
 			
-			if(!dto.getUserId().equals(info.getUserId()) && !info.getUserId().equals("admin")) {
+			/*
+			if(!dto.getUserId().equals(info.getUserId()) && !info.getuRole()==1) {
 				resp.sendRedirect(cp + "/community/list.do?" + query);
 				return;
 			}
+			*/
 			
 			List<CmmuDTO> listPhoto = dao.listPhoto(num);
 			for(CmmuDTO vo : listPhoto) {
