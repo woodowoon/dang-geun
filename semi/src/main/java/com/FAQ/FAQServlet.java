@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.member.SessionInfo;
-import com.notice.NoticeDTO;
 import com.util.FileManger;
 import com.util.MyUploadServlet;
 import com.util.MyUtil;
@@ -198,7 +197,7 @@ public class FAQServlet extends MyUploadServlet {
 			List<FAQDTO> listPhoto = dao.listFAQPhoto(fNum);
 			
 			
-			
+		 	
 			
 			req.setAttribute("dto", dto);
 			req.setAttribute("preReadFAQ", preReadFAQ);

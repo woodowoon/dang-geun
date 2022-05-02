@@ -143,7 +143,7 @@ function deleteFAQ(){
 				<td>
 					<a href="${pageContext.request.contextPath}/FAQ/article.do?${query}&fNum=${nextReadFAQ.fNum}">${nextReadFAQ.subject}</a>
 				</td>
-			</tr>
+			</tr> 
 		</table>
 		<div class="button">
 			<div class="btn_left">

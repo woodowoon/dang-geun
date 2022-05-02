@@ -42,7 +42,7 @@
 .table-border tr {
 	border-bottom: 1px solid #FF8A3D;
 }
-
+ 
 .table-border tr:first-child {
 	border-top: 2px solid #fff;
 }

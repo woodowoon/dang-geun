@@ -255,7 +255,7 @@ function deleteFile(pNum){
 					<c:forEach var = "vo" items="${listPhoto}">
 						<tr>
 							<td>첨부된 파일</td>
-							<td >
+							<td > 
 								<p>
 									<a href="javascript:deleteFile('${vo.pNum}');"><i class="far fa-trash-alt"></i></a>
 									${vo.savePhotoname}
