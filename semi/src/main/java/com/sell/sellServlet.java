@@ -77,9 +77,7 @@ public class sellServlet extends MyUploadServlet {
 			if(page != null) {
 				current_page = Integer.parseInt(page);
 			}
-			
-			// 로그인한 경우 회원의 지역을 기본값으로 두었더니 페이징 처리시 다시 회원지역으로 넘어가는 오류 발생
-			// 해결 로직을 찾지 못하여 rCode = 0으로 일단 변경 
+		
 			
 			String rCode = req.getParameter("rCode");	
 			String keyword = req.getParameter("keyword");
