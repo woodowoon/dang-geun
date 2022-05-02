@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import com.member.SessionInfo;
 import com.util.MyUploadServlet;
+import com.util.FileManger;
 import com.util.MyUtil;
 
 @MultipartConfig
@@ -47,6 +48,14 @@ public class sellServlet extends MyUploadServlet {
 			writeSubmit(req, resp);
 		} else if(uri.indexOf("article.do") != -1) {
 			article(req, resp);
+		} else if(uri.indexOf("update.do") != -1) {
+			updateForm(req,resp);
+		} else if(uri.indexOf("update_ok.do") != -1) {
+			updateSubmit(req, resp);
+		} else if(uri.indexOf("deletePhoto.do") != -1) {
+			deletePhoto(req, resp);
+		} else if(uri.indexOf("delete.do") != -1) {
+			delete(req, resp);
 		}
 	}
 	
@@ -54,8 +63,8 @@ public class sellServlet extends MyUploadServlet {
 		sellDAO dao = new sellDAO();
 		MyUtil util = new MyUtil();
 		String cp = req.getContextPath();
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
+//		HttpSession session = req.getSession();
+//		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		try {
 			List<regionDTO> regionList = null;
@@ -69,8 +78,11 @@ public class sellServlet extends MyUploadServlet {
 				current_page = Integer.parseInt(page);
 			}
 			
-			int rCode = info == null ? 0 : info.getrCode();
+			// 로그인한 경우 회원의 지역을 기본값으로 두었더니 페이징 처리시 다시 회원지역으로 넘어가는 오류 발생
+			// 해결 로직을 찾지 못하여 rCode = 0으로 일단 변경 
 			
+			//int rCode = info == null ? 0 : info.getrCode();
+			int rCode = 0;
 			if(req.getParameter("rCode") != null) {
 				rCode = Integer.parseInt(req.getParameter("rCode"));
 			}
@@ -214,11 +226,11 @@ public class sellServlet extends MyUploadServlet {
 		}
 		
 		try {
-			List<regionDTO> list = null;
-			list = dao.listRegion();
+			List<regionDTO> region = null;
+			region = dao.listRegion();
 			
 			req.setAttribute("mode", "write");
-			req.setAttribute("list", list);
+			req.setAttribute("region", region);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -267,5 +279,144 @@ public class sellServlet extends MyUploadServlet {
 		
 		resp.sendRedirect(cp+"/sell/list.do");
 	}
+	
+	private void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		sellDAO dao = new sellDAO();
+		String cp = req.getContextPath();
+		String page = "1";
+		if(req.getParameter("page") != null) {
+			page = req.getParameter("page");
+		}
+		
+		try {
+			int num = Integer.parseInt(req.getParameter("num"));
+			sellDTO dto = dao.readSell(num);
+			
+			if(dto == null) {
+				resp.sendRedirect(cp + "/sell/list.do?page=" +page);
+				return;
+			}
+			
+			List<sellDTO> listPhoto = dao.listPhoto(num);
+			List<regionDTO> region = null;
+			region = dao.listRegion();
+			
+			req.setAttribute("dto", dto);
+			req.setAttribute("listPhoto", listPhoto);
+			req.setAttribute("page", page);
+			req.setAttribute("mode", "update");
+			req.setAttribute("region", region);
+			
+			forward(req, resp, "/WEB-INF/semi/sell/write.jsp");
+			return;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		resp.sendRedirect(cp + "/sell/list.do?page=" + page);
+	}
+	
+	private void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		sellDAO dao = new sellDAO();
+		
+		String cp = req.getContextPath();
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/sell/list.do");
+			return;
+		}
+		
+		String page =req.getParameter("page");
+		
+		try {
+			sellDTO dto = new sellDTO();
+			dto.setCode(Integer.parseInt(req.getParameter("code")));
+			dto.setrCode(Integer.parseInt(req.getParameter("rCode")));
+			dto.setSubject(req.getParameter("subject"));
+			dto.setContent(req.getParameter("content"));
+			dto.setPrice(Integer.parseInt(req.getParameter("price")));
+			
+			// 상품이미지
+			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
+			if(map != null) {
+				String[] photoNames = map.get("saveFilenames");
+				dto.setPhotoNames(photoNames);
+			}
+			dao.updateSell(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp + "/sell/list.do?page=" + page);
+	}
+	
+	private void deletePhoto(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		sellDAO dao = new sellDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		String cp = req.getContextPath();
+		String page = req.getParameter("page");
+		
+		try {
+			int num = Integer.parseInt(req.getParameter("num"));
+			int pNum = Integer.parseInt(req.getParameter("pNum"));
+			// System.out.println(pNum);
+			
+			sellDTO dto = dao.readSell(num);
+			
+			if(dto == null) {
+				resp.sendRedirect(cp + "/sell/list.do?page=" + page);
+				return;
+			}
+			
+			if(! info.getUserId().equals(dto.getUserId())) {
+				resp.sendRedirect(cp + "/sell/list.do?page=" + page);
+			}
+			
+			sellDTO vo = dao.readPhoto(pNum);
+			
+			if(vo != null) {
+				FileManger.doFiledelete(pathname, vo.getPhotoName());
+			
+				dao.deletePhoto("one", pNum);
+				
+			}
+			resp.sendRedirect(cp+ "/sell/update.do?num=" + num + "&page=" + page);
+			return;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/sell/list.do?page=" + page);
+	}
+	
+	private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
+		sellDAO dao = new sellDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String cp = req.getContextPath();
+		
+		if(info == null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		try {
+			//System.out.println(req.getParameter("num"));
+			int num = Integer.parseInt(req.getParameter("num"));
+			
+			dao.deletePhoto("all", num);
+			dao.deleteSell(num);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/sell/list.do");
+	}
+	
+	
 }
 

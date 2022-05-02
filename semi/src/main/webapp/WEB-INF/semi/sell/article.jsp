@@ -26,11 +26,50 @@
 
 .board table {
 	width: 100%;
-	height: 500px;
 	border-collapse: collapse;
+}
+
+.itemInfo {
+	margin: 50px auto;
 	border-top: 2px solid #FF8A3D;
 }
 
+.itemInfo tr td {
+	padding: 7px;
+}
+
+.itemInfo tr td:first-child {
+	width: 10%;
+	color: #fff;
+	border-bottom: 1px solid #fff;
+	font-weight: 600;
+	background: #FF8A3D;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.itemInfo tr:first-child td:nth-child(odd) {
+	width: 10%;
+	color: #fff;
+	font-weight: 600;
+	background: #FF8A3D;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.itemInfo tr td:not(:first-child) {
+	border-bottom: 1px solid #FF8A3D;
+}
+
+
+
+.itemInfo tr:nth-child(odd) {
+	height: 50px;
+}
+
+.detail {
+	min-height: 200px;
+}
 
 .board .button {
 	display: flex;
@@ -71,6 +110,12 @@ li {
 	float: left;
 }
 
+.slides img {
+	width: 500px;
+	height: 300px;
+	border-radius: 15px;
+}
+
 .controller span {
 	position: absolute;
 	color: black;
@@ -101,6 +146,10 @@ li {
 
 .next:hover {
 	transform: translateX(10px);
+}
+
+.info {
+	border-top: 1px solid #ddd;
 }
 
 </style>
@@ -153,7 +202,7 @@ $(function() {
 		<div id="slideShow">
 			<ul class="slides">
 				<c:forEach var="vo" items="${listPhoto}">
-					<li><img src="${pageContext.request.contextPath}/uploads/notice/${vo.photoName}" alt="" style="width:500px; height: 300px;"></li>
+					<li><img src="${pageContext.request.contextPath}/uploads/notice/${vo.photoName}" alt=""></li>
 				</c:forEach>
 			</ul>
 			 <p class="controller">
@@ -161,26 +210,37 @@ $(function() {
 				 <span class="next"><i class="fa-solid fa-angle-right"></i></span>
 			 </p>
 		</div>
-		<table>	
-			<tr class="sellerInfo">
-				<td></td>
+		<table class="itemInfo">
+			<tr>
+				<td>판매자 명</td>
 				<td>${dto.uNick}</td>
-				<td>${dto.price}</td>
+				<td>지역</td>
 				<td>${dto.rName}</td>
-				<td></td>
 			</tr>
-			<tr class="contentInfo">
-				<td></td>
-				<td colspan="3">${dto.content}</td>
-				<td></td>
+			<tr>
+				<td>제목</td>
+				<td colspan="3">${dto.subject}</td>
+			</tr>
+			<tr>
+				<td>가격</td>
+				<td colspan="3"><fmt:formatNumber type="number" maxFractionDigits="3" value="${dto.price}" /> 원</td>
+			</tr>
+			<tr>	
+				<td>상세 내용</td>
+				<td colspan="3">
+					<div class="detail">${dto.content}</div>
+				</td>	
 			</tr>
 		</table>
+		
 		<div class="button">
 			<div class="btn_left">
-				<button type="button" class="btn" onclick="${pageContext.request.contextPath}/sell/update.do?${query}">수정</button>
-				<button type="button" class="btn" onclick="${pageContext.request.contextPath}/sell/delete.do?${query}">삭제</button>
+				<c:if test="${sessionScope.member.userId == dto.userId}">
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/update.do?num=${dto.code}&${query}';">수정</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/delete.do?num=${dto.code}'">삭제</button>
+				</c:if>
 			</div>
-			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/list.do?${query}'">리스트</button>
+			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/list.do?${query}';">리스트</button>
 		</div>
 		<hr style="border:2px solid #FF8A3D">
 		<div class="reply">

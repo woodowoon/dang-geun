@@ -78,9 +78,23 @@ function sendOk() {
 		return;
 	}
 	
+	str = f.selectFile.value.trim();
+	if(${mode == 'write'}) {
+		if(! str) {
+			alert("첨부파일이 없습니다.");
+			f.selectFile.focus();
+			return;
+		}	
+	} else if(${mode == 'update'}) {
+		if(! str && $(".img-box").find("img") ) {
+			alert("첨부파일이 없습니다.");
+			f.selectFile.focus();
+			return;
+		}
+	}
+	
 	f.action = "${pageContext.request.contextPath}/sell/${mode}_ok.do";
 	f.submit();
-
 }
 
 <c:if test="${mode=='update'}">
@@ -174,7 +188,7 @@ $(function() {
 	<div class="body-container" style="width: 700px;">
 	<div class="board">
 		<div class="title">
-			<h3><i class="fas fa-chalkboard-teacher"></i> 중고거래글쓰기 </h3>
+			<h3><i class="fas fa-chalkboard-teacher"></i> 중고거래 글${mode=='write' ? '쓰기' : '수정'}</h3>
 		</div>
         
 		<form name="sellForm" method="post" enctype="multipart/form-data">
@@ -201,7 +215,7 @@ $(function() {
 					<td>지&nbsp;&nbsp;&nbsp;&nbsp;역</td>
 					<td> 
 						<select name="rCode" class="form-select" style="width: 15%;">
-							<c:forEach var="dto" items="${list}">
+							<c:forEach var="dto" items="${region}">
 								<option value="${dto.rCode}" ${sessionScope.member.rCode == dto.rCode ? "selected='selected'" : ""}>${dto.rName}</option>
 							</c:forEach>
 						</select>
@@ -221,12 +235,12 @@ $(function() {
 		            </td>
 		        </tr>
 		        
-		        <c:if test="">
+		        <c:if test="${mode=='update'}">
 		        	<tr>
 		        		<td>등록이미지</td>
 		        		<td> 
 							<div class="img-box">
-								<c:forEach var="vo" items="${list}">
+								<c:forEach var="vo" items="${listPhoto}">
 									<img src="${pageContext.request.contextPath}/uploads/notice/${vo.photoName}"
 										onclick="deleteFile('${vo.pNum}');">
 								</c:forEach>
@@ -239,8 +253,12 @@ $(function() {
 			<table class="table">
 				<tr> 
 					<td align="center">
-						<button type="button" class="btn" onclick="sendOk();">등록하기</button>
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/list.do';">등록취소</button>
+						<button type="button" class="btn" onclick="sendOk();">${mode=='write' ? '등록하기' : '수정하기'}</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/list.do';">${mode=='write' ? '등록취소' : '수정취소'}</button>
+						<c:if test="${mode=='update'}">
+							<input type="hidden" name="code" value="${dto.code}">
+							<input type="hidden" name="page" value="${page}">
+						</c:if>
 					</td>
 				</tr>
 			</table>

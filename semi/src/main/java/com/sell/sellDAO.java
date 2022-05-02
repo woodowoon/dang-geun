@@ -385,7 +385,6 @@ public class sellDAO {
 		}
 	}
 	
-	// code, userId, uNick, rCode, subject, content, price
 	public sellDTO readSell(int num) {
 		sellDTO dto = null;
 		PreparedStatement pstmt = null;
@@ -437,6 +436,46 @@ public class sellDAO {
 		return dto;
 	}
 	
+	public sellDTO readPhoto(int pNum) {
+		sellDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql = " SELECT pNum, code, photoName FROM itemPhoto WHERE pNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pNum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new sellDTO();
+				
+				dto.setpNum(rs.getInt("pNum"));
+				dto.setCode(rs.getInt("code"));
+				dto.setPhotoName(rs.getString("photoName"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return dto;
+	}
+	
 	public List<sellDTO> listPhoto(int num) {
 		List<sellDTO> list = new ArrayList<sellDTO>();
 		PreparedStatement pstmt = null;
@@ -456,8 +495,8 @@ public class sellDAO {
 			while(rs.next()) {
 				sellDTO dto = new sellDTO();
 				
-				dto.setpNum(num);
-				dto.setpCode(num);
+				dto.setpNum(rs.getInt("pNum"));
+				dto.setpCode(rs.getInt("code"));
 				dto.setPhotoName(rs.getString("photoName"));
 				
 				list.add(dto);
@@ -480,8 +519,104 @@ public class sellDAO {
 				}
 			}
 		}
-		
-		
+
 		return list;
+	}
+	
+	public void updateSell(sellDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = " UPDATE item SET subject = ?, price = ?, rCode = ?, content = ? WHERE code = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getSubject());
+			pstmt.setInt(2, dto.getPrice());
+			pstmt.setInt(3, dto.getrCode());
+			pstmt.setString(4, dto.getContent());
+			pstmt.setInt(5, dto.getCode());
+			
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			pstmt = null;
+			
+			if(dto.getPhotoNames() != null) {
+				sql = " INSERT INTO itemPhoto(pNum, code, photoName) "
+						+ " VALUES(itemphoto_seq.NEXTVAL, ?, ?) ";
+					
+					pstmt = conn.prepareStatement(sql);
+					
+					for(int i=0; i<dto.getPhotoNames().length; i++) {
+						pstmt.setInt(1, dto.getCode());
+						pstmt.setString(2, dto.getPhotoNames()[i]);
+						
+						pstmt.executeUpdate();
+					}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+	}
+	
+	public void deleteSell(int num) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = " DELETE FROM item WHERE code = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+					
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+	
+	public void deletePhoto(String mode, int num) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			if(mode.equals("all")) {
+				sql = " DELETE FROM itemPhoto WHERE code = ? ";				
+			} else {
+				sql = " DELETE FROM itemPhoto WHERE pNum = ? ";
+			}
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e2) {
+				}
+			}
+		}
+		
 	}
 }

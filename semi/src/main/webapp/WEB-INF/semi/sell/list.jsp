@@ -123,7 +123,7 @@ function searchList() {
 							<select name="rCode" class="selectField">
 								<option value="0">::전체::</option>
 								<c:forEach var="dto" items="${regionList}">
-									<option value="${dto.rCode}" 
+									<option value="${dto.rCode}" ${rCode == dto.rCode ? "selected='selected'" : ""}
 										<c:choose>
 											<c:when test="${rCode eq 0}">
 												${sessionScope.member.rCode == dto.rCode ? "selected='selected'" : ""}
@@ -133,8 +133,7 @@ function searchList() {
 											</c:otherwise>
 										</c:choose>>${dto.rName}
 									</option>
-								</c:forEach>
-								
+								</c:forEach>		
 							</select>
 							<input type="text" name="keyword" value="${keyword}" class="boxTF">
 							<button type="button" class="btn" onclick="searchList();">검색</button>
