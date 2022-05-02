@@ -90,7 +90,6 @@
 	width: 7%;
 }
 
-
 </style>
 <script type="text/javascript">
 function searchOk() {
@@ -113,41 +112,39 @@ function searchOk() {
 		<div class="board">
 			<div class="title">
 				<h3><i class="fa-solid fa-carrot"></i> 공지사항 </h3>
+			</div>	
 				
 			<table class="table">
 		      <tr>
-				<td align="center">
+				<td align="left">
 					<form name="searchForm" action="${pageContext.request.contextPath}/notice/list.do" method="post">
-						<select name="condition" class="form-select">
+						<select name="condition" class="selectField">
 							<option value="all" ${condition=="all" ?"selected='selected'":""}>제목+내용</option>
 							<option value="reg_date" ${condition=="reg_date" ?"selected='selected'":""}>등록일</option>
 							<option value="subject" ${condition=="subject" ?"selected='selected'":""}>제목</option>
 							<option value="content" ${condition=="content" ?"selected='selected'":""}>내용</option>
 						</select>				
-						<input type="text" name="keyword" value="${keyword}" class="form-control">
+						<input type="text" name="keyword" value="${keyword}" class="boxTF">
 						<button type="button" class="btn" onclick="searchOk();">검색</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/notice/list.do';">새로고침</button>
 					</form>
 				</td>
-				<td>
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/notice/list.do';">새로고침</button>
-				    </td>
-				    
+				
 				<td align="right">
 				    <c:if test="${sessionScope.member.userId == 'admin'}">
 						<button type="button" class="btn notice-btn" onclick="location.href='${pageContext.request.contextPath}/notice/write.do';">글올리기</button>
 				    </c:if>
 				</td>
-			</tr>
-		</table>	
-			
+			  </tr>
+		  </table>	
 				
-				<table class="table">
+			<table class="table">
 				<tr>		
 			        <td class="show-currentPage">${dataCount}개(${page}/${total_page}페이지)</td>
 			    </tr>
 			   </table>
 		
-			</div>
+		
 		
 			<table class="table table-border table-list">
 				<tr>
@@ -190,7 +187,8 @@ function searchOk() {
 			</div>	
 			
 		</div>
-	</div>
+	 </div>
+
 </main>
 	
 <footer>
