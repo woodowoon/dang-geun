@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>당근마켓 - 이벤트 게시글</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style type="text/css">
@@ -110,7 +110,7 @@ function deleteEvent(){
 		<div class="button">
 			<div class="btn_left">
 			<c:choose>
-				<c:when test="${sessionScope.member.userId=='admin'}">
+				<c:when test="${sessionScope.member.uRole==1}">
 					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/event/update.do?eNum=${dto.eNum}&page=${page}';">수정</button>
 				</c:when>
 				<c:otherwise>
@@ -118,7 +118,7 @@ function deleteEvent(){
 				</c:otherwise>
 			</c:choose>
 			<c:choose>
-				<c:when test="${sessionScope.member.userId=='admin'}">
+				<c:when test="${sessionScope.member.uRole==1}">
 					<button type="button" class="btn" onclick="deleteEvent()">삭제</button>
 				</c:when>
 				<c:otherwise>

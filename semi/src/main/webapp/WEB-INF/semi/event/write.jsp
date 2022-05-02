@@ -6,77 +6,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>당근마켓 - 이벤트 작성/수정</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style type="text/css">
-/*
-.table-form td {
-	padding: 7px 0;
-	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
-}
-
-.table-form p {
-	line-height: 200%;
-}
-
-.table-form tr:first-child {
-    border-top: 2px solid #FF8A3D;
-}
-
-.table-form tr > td:nth-child(2) {
-	padding-left: 10px;
-}
-
-.table-form input[type=text], .table-form input[type=file], .table-form textarea {
-	width: 96%;
-}
-
-.table-form tr>td {
-	padding: 7px 0;
-}
-
-.table-form tr>td:first-child {
-	width: 110px; text-align: center; background: #FF8A3D;
-	color: #fff;
-}
-
-.form-control {
-	border: 1px solid #999; border-radius: 4px; background-color: #fff;
-	padding: 5px 5px; 
-	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
-	vertical-align: baseline;
-}
-
-.form-control[readonly] { background-color:#FF8A3D; }
-
-textarea.form-control { height: 170px; resize : none; }
-textarea:focus, input:focus { outline: none; }
-
-.table { width: 100%; border-spacing: 0; border-collapse: collapse; }
-.table th, .table td { 
-	padding-top: 10px; padding-bottom: 10px; 
-}
-
-.td-border td { border: 1px solid #FF8A3D; }
-
-.left{ text-align: left; padding-left: 10px; }
-.right{ text-align: right; padding-right: 10px; }
-.center{ text-align: center; }
-
-.clear { clear: both; }
-.clear:after { content:''; display:block; clear: both; }
-
-.btn{
-	background: #FF8A3D;
-	color:#fff;
-	border: none;
-	padding: 5px;
-	border-radius: 5px;
-	margin-top: 20px;
-	
-}
-*/
 .img-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, 65px);
