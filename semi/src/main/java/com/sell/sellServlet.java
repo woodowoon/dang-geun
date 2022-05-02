@@ -135,12 +135,16 @@ public class sellServlet extends MyUploadServlet {
 			listUrl = cp+"/sell/list.do";
 			articleUrl = cp+"/sell/article.do?page="+current_page;
 			
-			if(keyword.length() != 0) {
+			//if(keyword.length() != 0) {
 				query="rCode="+rCode+"&keyword="+URLEncoder.encode(keyword, "utf-8");
 				
+				
 				listUrl += "?" + query;
-				articleUrl += "?" + query;
-			}
+				articleUrl += "&" + query;
+//				System.out.println(listUrl);
+//				System.out.println(articleUrl);
+//				System.out.println(query);
+			//}
 			
 			String paging = util.paging(current_page, total_page, listUrl);
 			
@@ -188,9 +192,9 @@ public class sellServlet extends MyUploadServlet {
 			}
 			keyword = URLDecoder.decode(keyword, "utf-8");
 			
-			if(keyword.length() != 0) {
+			//if(keyword.length() != 0) {
 				query += "&rCode="+rCode+"&keyword="+URLEncoder.encode(keyword, "utf-8");
-			}
+			//}
 			dao.updateHitCount(num);
 			
 			sellDTO dto = dao.readSell(num);

@@ -86,7 +86,7 @@ function sendOk() {
 			return;
 		}	
 	} else if(${mode == 'update'}) {
-		if(! str && $(".img-box").find("img") ) {
+		if((! str) && !( $('.reg_photo').length) ) {
 			alert("첨부파일이 없습니다.");
 			f.selectFile.focus();
 			return;
@@ -241,7 +241,7 @@ $(function() {
 		        		<td> 
 							<div class="img-box">
 								<c:forEach var="vo" items="${listPhoto}">
-									<img src="${pageContext.request.contextPath}/uploads/notice/${vo.photoName}"
+									<img class="reg_photo" src="${pageContext.request.contextPath}/uploads/notice/${vo.photoName}"
 										onclick="deleteFile('${vo.pNum}');">
 								</c:forEach>
 							</div>

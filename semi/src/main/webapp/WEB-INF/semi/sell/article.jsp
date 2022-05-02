@@ -235,8 +235,10 @@ $(function() {
 		
 		<div class="button">
 			<div class="btn_left">
-				<c:if test="${sessionScope.member.userId == dto.userId}">
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/update.do?num=${dto.code}&${query}';">수정</button>
+				<c:if test="${sessionScope.member.userId == dto.userId || sessionScope.member.uRole == 1}">
+					<c:if test="${sessionScope.member.userId == dto.userId}">
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/update.do?num=${dto.code}&${query}';">수정</button>
+					</c:if>
 					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/delete.do?num=${dto.code}'">삭제</button>
 				</c:if>
 			</div>
@@ -244,7 +246,6 @@ $(function() {
 		</div>
 		<hr style="border:2px solid #FF8A3D">
 		<div class="reply">
-		 댓글
 		</div>
 	</div>
 </div>
