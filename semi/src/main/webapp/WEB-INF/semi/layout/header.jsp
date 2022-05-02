@@ -52,8 +52,7 @@
 			<span>${sessionScope.member.uNick}</span>님
 			<a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a>
 			&nbsp;|&nbsp;
-			<a href="#">마이페이지</a>
-
+			<a href="${pageContext.request.contextPath}/mypage/list.do">마이페이지</a>
 		</c:if>
 	</div>	
 </div>
