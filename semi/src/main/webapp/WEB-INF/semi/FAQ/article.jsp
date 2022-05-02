@@ -11,7 +11,7 @@
 
 <style type="text/css">
 .container .title {
-	margin-bottom: 15px;
+	margin: 30px 0;
 	color: #FF8A3D;
 }
 
@@ -24,7 +24,7 @@
 	width: 100%;
 	border-collapse: collapse;
 	border-top: 2px solid #FF8A3D;
-	min-height: 800px;	
+	min-height: 500px;	
 }
 
 .container table .border_btn {
@@ -128,19 +128,19 @@ function deleteFAQ(){
 				</td>
 			</tr>
 			<tr >
-				<td colspan="2" style="text-align: center;" class="content">${dto.content}</td>
+				<td colspan="2"  class="content">${dto.content}</td>
 			</tr>
 			<tr class="border_btn preNext">
 				<td class="border_rgt t_header">이전글
 				</td>
-				<td>
+				<td colspan="2">
 					<a  href="${pageContext.request.contextPath}/FAQ/article.do?${query}&fNum=${preReadFAQ.fNum}">${preReadFAQ.subject}</a>				
 				</td>
 			</tr>
 			<tr class="border_btn preNext" style="border-bottom: 2px solid #FF8A3D;">
 				<td class="border_rgt t_header">다음글
 				</td>
-				<td>
+				<td colspan="2">
 					<a href="${pageContext.request.contextPath}/FAQ/article.do?${query}&fNum=${nextReadFAQ.fNum}">${nextReadFAQ.subject}</a>
 				</td>
 			</tr> 
