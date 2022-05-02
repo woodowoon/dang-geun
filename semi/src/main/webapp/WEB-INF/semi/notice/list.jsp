@@ -114,10 +114,36 @@ function searchOk() {
 			<div class="title">
 				<h3><i class="fa-solid fa-carrot"></i> 공지사항 </h3>
 				
+			<table class="table">
+		      <tr>
+				<td align="center">
+					<form name="searchForm" action="${pageContext.request.contextPath}/notice/list.do" method="post">
+						<select name="condition" class="form-select">
+							<option value="all" ${condition=="all" ?"selected='selected'":""}>제목+내용</option>
+							<option value="reg_date" ${condition=="reg_date" ?"selected='selected'":""}>등록일</option>
+							<option value="subject" ${condition=="subject" ?"selected='selected'":""}>제목</option>
+							<option value="content" ${condition=="content" ?"selected='selected'":""}>내용</option>
+						</select>				
+						<input type="text" name="keyword" value="${keyword}" class="form-control">
+						<button type="button" class="btn" onclick="searchOk();">검색</button>
+					</form>
+				</td>
+				<td>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/notice/list.do';">새로고침</button>
+				    </td>
+				    
+				<td align="right">
+				    <c:if test="${sessionScope.member.userId == 'admin'}">
+						<button type="button" class="btn notice-btn" onclick="location.href='${pageContext.request.contextPath}/notice/write.do';">글올리기</button>
+				    </c:if>
+				</td>
+			</tr>
+		</table>	
+			
+				
 				<table class="table">
 				<tr>		
 			        <td class="show-currentPage">${dataCount}개(${page}/${total_page}페이지)</td>
-					<td align="right">&nbsp;</td>
 			    </tr>
 			   </table>
 		
@@ -161,32 +187,7 @@ function searchOk() {
 			
 			<div class="page-box">
 				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging }
-			</div>
-			
-	      <table class="table">
-		      <tr>
-				<td width="100">
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/notice/list.do';">새로고침</button>
-				</td>
-				<td align="center">
-					<form name="searchForm" action="${pageContext.request.contextPath}/notice/list.do" method="post">
-						<select name="condition" class="form-select">
-							<option value="all" ${condition=="all" ?"selected='selected'":""}>제목+내용</option>
-							<option value="reg_date" ${condition=="reg_date" ?"selected='selected'":""}>등록일</option>
-							<option value="subject" ${condition=="subject" ?"selected='selected'":""}>제목</option>
-							<option value="content" ${condition=="content" ?"selected='selected'":""}>내용</option>
-						</select>
-						<input type="text" name="keyword" value="${keyword}" class="form-control">
-						<button type="button" class="btn" onclick="searchOk();">검색</button>
-					</form>
-				</td>
-				<td align="right" width="100">
-				    <c:if test="${sessionScope.member.userId == 'admin'}">
-						<button type="button" class="btn notice-btn" onclick="location.href='${pageContext.request.contextPath}/notice/write.do';">글올리기</button>
-				    </c:if>
-				</td>
-			</tr>
-		</table>	
+			</div>	
 			
 		</div>
 	</div>

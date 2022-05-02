@@ -248,7 +248,7 @@ public class NoticeDAO {
 				sb.append("   WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 ");
 			} else if(condition.equals("reg_date")) {
 				keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
-				sb.append("   WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ?");
+				sb.append("   WHERE TO_CHAR(n.reg_date, 'YYYYMMDD') = ?");
 			} else {
 				sb.append("   WHERE INSTR(" + condition + ", ?) >= 1");
 			}
