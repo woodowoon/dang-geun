@@ -63,4 +63,51 @@ public class MemberDAO {
 		
 		return dto;
 	}
+	
+	
+	public void insertMember(MemberDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			sql = "INSERT INTO member(userId,uName,uPwd,uRole,uTel,uNick,reg_date,photoName,rCode) "
+				+ " VALUES (?,?,?,0,?,?,SYSDATE,?,?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getUserId());
+			pstmt.setString(2, dto.getuName());
+			pstmt.setString(3, dto.getuPwd());
+			pstmt.setString(4, dto.getuTel());
+			pstmt.setString(5, dto.getuNick());
+			pstmt.setString(6, dto.getPhotoName());
+			pstmt.setInt(7, dto.getrCode());
+			
+			pstmt.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (Exception e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+			
+			try {
+				conn.setAutoCommit(true);
+			} catch (Exception e2) {
+			}
+		}
+	}
+	
 }

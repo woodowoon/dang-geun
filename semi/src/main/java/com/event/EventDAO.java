@@ -20,7 +20,7 @@ public class EventDAO {
 		
 		try {
 			//시퀀스 값 가져오기
-			sql = " SELECT FAQ_seq.NEXTVAL FROM dual ";
+			sql = " SELECT event_seq.NEXTVAL FROM dual ";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -53,7 +53,7 @@ public class EventDAO {
 			
 			if(dto.getSavePhotoes() != null) {
 				sql = " INSERT INTO eventPhoto (pNum, eNum, photoname)"
-					+ " VALUES (faq_seq.NEXTVAL, ?, ?)";
+					+ " VALUES (event_seq.NEXTVAL, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				
 				for(int i=0; i<dto.getSavePhotoes().length; i++) {
@@ -90,7 +90,7 @@ public class EventDAO {
 		String sql;
 		
 		try {
-			sql = " SELECT COUNT(*) FROM FAQ ";
+			sql = "SELECT COUNT(*) FROM event";
 			
 			pstmt = conn.prepareStatement(sql);
 			
