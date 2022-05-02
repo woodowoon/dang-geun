@@ -10,13 +10,73 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style type="text/css">
-.body-container .title {
-	margin: 30px 0;
-	color: #FF8A3D;
+/*
+.table-form td {
+	padding: 7px 0;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
 }
 
+.table-form p {
+	line-height: 200%;
+}
 
+.table-form tr:first-child {
+    border-top: 2px solid #FF8A3D;
+}
 
+.table-form tr > td:nth-child(2) {
+	padding-left: 10px;
+}
+
+.table-form input[type=text], .table-form input[type=file], .table-form textarea {
+	width: 96%;
+}
+
+.table-form tr>td {
+	padding: 7px 0;
+}
+
+.table-form tr>td:first-child {
+	width: 110px; text-align: center; background: #FF8A3D;
+	color: #fff;
+}
+
+.form-control {
+	border: 1px solid #999; border-radius: 4px; background-color: #fff;
+	padding: 5px 5px; 
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+
+.form-control[readonly] { background-color:#FF8A3D; }
+
+textarea.form-control { height: 170px; resize : none; }
+textarea:focus, input:focus { outline: none; }
+
+.table { width: 100%; border-spacing: 0; border-collapse: collapse; }
+.table th, .table td { 
+	padding-top: 10px; padding-bottom: 10px; 
+}
+
+.td-border td { border: 1px solid #FF8A3D; }
+
+.left{ text-align: left; padding-left: 10px; }
+.right{ text-align: right; padding-right: 10px; }
+.center{ text-align: center; }
+
+.clear { clear: both; }
+.clear:after { content:''; display:block; clear: both; }
+
+.btn{
+	background: #FF8A3D;
+	color:#fff;
+	border: none;
+	padding: 5px;
+	border-radius: 5px;
+	margin-top: 20px;
+	
+}
+*/
 .img-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, 65px);
@@ -24,13 +84,12 @@
 }
 
 .img-grid .item {
-    object-fit: cover; /* 가로세로 비율은 유지하면서 컨테이너에 꽉 차도록 설정 */
+    object-fit: cover;
     width: 65px;
     height: 65px;
 	cursor: pointer;
 }
 </style>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
@@ -81,7 +140,7 @@ $(function(){
 			}
 		}
 		
-		let dt = new DataTransfer(); //Drag&Drop 되는 대상 DATA를 담는 역할을 함
+		let dt = new DataTransfer();
 		for(file of fileArr) {
 			dt.items.add(file);
 		}
@@ -102,12 +161,7 @@ function sendOk(){
 		f.subject.focus();
 		return;
 	}
-	str = f.category.value.trim();
-	if(!str){
-		alert("카테고리를 선택하세요.");
-		f.category.focus();
-		return;
-	} 
+
 	str = f.content.value.trim();
 	if(!str){
 		alert("내용을 입력하세요.");
@@ -115,15 +169,15 @@ function sendOk(){
 		return;
 	}
 	
-	f.action = "${pageContext.request.contextPath}/FAQ/${mode}_ok.do";
+	f.action = "${pageContext.request.contextPath}/event/${mode}_ok.do";
 	f.submit();
 }
 
 <c:if test="${mode=='update'}">	
 function deleteFile(pNum){
 	if(confirm('파일을 삭제하시겠습니까?')){
-		let query = "fNum=${dto.fNum}&page=${page}&pNum="+pNum;
-		let url = "${pageContext.request.contextPath}/FAQ/deletePhoto.do?"+query;
+		let query = "eNum=${dto.eNum}&page=${page}&pNum="+pNum;
+		let url = "${pageContext.request.contextPath}/event/deletePhoto.do?"+query;
 		location.href=url;
 	}
 	
@@ -140,9 +194,9 @@ function deleteFile(pNum){
 </header>
 
 <main>
-	<div class="body-container">
+	<div class="body-container" style="width: 700px;">
 		<div class="title">
-			<h3><i class="fa-solid fa-clipboard-question"></i> 자주 묻는 질문 ${mode == "update" ? "수정" : "등록" }하기 </h3>
+			<h3><i class="fa-solid fa-carrot"></i> 이벤트 ${mode == "update" ? "수정" : "등록" }하기 </h3>
 		</div>
         
 		<form name="boardForm" method="post" enctype="multipart/form-data">
@@ -160,27 +214,24 @@ function deleteFile(pNum){
 						<p>${sessionScope.member.uNick}</p>
 					</td>
 				</tr>
-				<tr> 
-					<td>질문타입</td>
-					<td> 
-						<select name="category" class="form-control">
-							<option value="">카테고리 선택</option>
-							<option value="1" ${dto.category == 1 ? "selected='selected'":"" }>로그인 관련</option>
-							<option value="2" ${dto.category == 2 ? "selected='selected'":"" }>보안 관련</option>
-							<option value="3" ${dto.category == 3 ? "selected='selected'":"" }>거래 관련</option>
-						</select>
-					</td>
-				</tr>
 				
 				<tr> 
 					<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 					<td> 
 						<c:if test="${mode == 'update'}">
 							<c:forEach var="vo" items="${listPhoto}">
-								<img src = "${pageContext.request.contextPath}/uploads/FAQ/${vo.savePhotoname}" width="80%;">
+								<img src = "${pageContext.request.contextPath}/uploads/event/${vo.savePhotoname}" width="80%;">
 							</c:forEach>
 						</c:if>
 						<textarea name="content" class="form-control">${dto.content}</textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>기간</td>
+					<td>
+						시작일&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="startDate" class="form-control" value="${dto.startDate}" style="width: 30%;">&nbsp;&nbsp;&nbsp;&nbsp;
+						종료일&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="endDate" class="form-control" value="${dto.endDate}" style="width: 30%;">
 					</td>
 				</tr>
 				
@@ -214,14 +265,14 @@ function deleteFile(pNum){
 						<button type="reset" class="btn">다시입력</button>
 						<c:choose>
 							<c:when test="${mode == 'write'}">
-								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/FAQ/list.do';">작성취소</button>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/event/list.do';">작성취소</button>
 							</c:when>
 							<c:when test="${mode == 'update'}">
-								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/FAQ/article.do?page=${page}&fNum=${dto.fNum}';">수정취소</button>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/event/article.do?page=${page}&eNum=${dto.eNum}';">수정취소</button>
 							</c:when>						
 						</c:choose>
 						<c:if test="${mode=='update'}">
-							<input type="hidden" name = "fNum" value = "${dto.fNum}">
+							<input type="hidden" name = "eNum" value = "${dto.eNum}">
 							<input type="hidden" name = "page" value = "${page}">
 						</c:if>
 					</td>

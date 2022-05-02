@@ -362,22 +362,55 @@ public class NoticeServlet extends MyUploadServlet{
 	
 	
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		NoticeDAO dao = new NoticeDAO();
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String cp = req.getContextPath();
+		
+		if (!info.getUserId().equals("admin")) {
+			resp.sendRedirect(cp + "/notice/list.do");
+			return;
+		}
+		
+		NoticeDAO dao = new NoticeDAO();
+
 		String page = req.getParameter("page");
+		String rows = req.getParameter("rows");
+		String query = "page=" + page + "&rows=" + rows;
 		
 		try {
 			int nNum = Integer.parseInt(req.getParameter("nNum"));
-		
-			dao.deleteNotice(nNum);
+			String condition = req.getParameter("condition");
+			String keyword = req.getParameter("keyword");
+			if (condition == null) {
+				condition = "all";
+				keyword = "";
+			}
+			keyword = URLDecoder.decode(keyword, "utf-8");
+
+			if (keyword.length() != 0) {
+				query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+			}
+
+			NoticeDTO dto = dao.readNotice(nNum);
+			if (dto == null) {
+				resp.sendRedirect(cp + "/notice/list.do?" + query);
+				return;
+			}
 			
-			resp.sendRedirect(cp+"/notice/list.do?page="+page);
-			return;
+			List<NoticeDTO> listFile = dao.listNoticeFile(nNum);
+			for (NoticeDTO vo : listFile) {
+				FileManger.doFiledelete(pathname, vo.getSaveFileName());
+			}
+			dao.deleteNoticeFile("all", nNum);
+			
+			dao.deleteNotice(nNum);
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		resp.sendRedirect(cp + "/notice/list.do?" + query);
 	}
 	
 	protected void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -392,6 +425,7 @@ public class NoticeServlet extends MyUploadServlet{
 		
 		NoticeDAO dao = new NoticeDAO();
 		String page = req.getParameter("page");
+		String rows = req.getParameter("rows");
 		
 		try {
 			int nNum = Integer.parseInt(req.getParameter("nNum"));
@@ -403,14 +437,14 @@ public class NoticeServlet extends MyUploadServlet{
 				dao.deleteNoticeFile("one", fNum);
 			}
 			
-			resp.sendRedirect(cp+"/notice/update.do?nNum="+nNum+"&page="+page);
+			resp.sendRedirect(cp+"/notice/update.do?nNum="+nNum+"&page="+page + "&rows=" + rows);
 			return;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		resp.sendRedirect(cp+"/notice/list.do?page="+page);
+		resp.sendRedirect(cp+"/notice/list.do?page=" + page + "&rows=" + rows);
 	}
 	
 	protected void download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

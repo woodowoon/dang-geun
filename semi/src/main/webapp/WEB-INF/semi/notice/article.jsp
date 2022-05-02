@@ -104,7 +104,7 @@ function deleteNotice() {
 		<table>
 			<tr class="border_btn">
 				<td class="border_rgt t_header">제목</td>
-				<td colspan="2">${dto.subject}</td>
+				<td colspan="3">${dto.subject}</td>
 			</tr>
 			<tr class="border_btn">
 				<td class="border_rgt t_header">닉네임</td>
@@ -115,13 +115,13 @@ function deleteNotice() {
 			
 			<tr class="border_btn">
 				<td class="border_rgt t_header">내용</td>
-				<td colspan="2" class="content" valign="top" height="200">${dto.content}</td>
+				<td colspan="3" class="content" valign="top" height="200">${dto.content}</td>
 			</tr>
 	
          <c:forEach var="vo" items="${listFile}">
 			<tr class="border_last">
-				<td  height="30">첨부파일<td>
-				<td>
+				<td height="30">첨부파일 : <td>
+				<td style="text-align: left">
 					<a href="${pageContext.request.contextPath}/notice/download.do?fNum=${vo.fNum}">${vo.originalFileName}</a>
 				</td>
 			</tr>
