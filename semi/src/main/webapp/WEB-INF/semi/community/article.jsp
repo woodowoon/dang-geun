@@ -83,7 +83,7 @@
 
 </style>
 <script type="text/javascript">
-<c:if test="${sessionScope.member.userId == dto.userId || sessionScope.member.userId == 'admin'}">
+<c:if test="${sessionScope.member.userId == dto.userId || sessionScope.member.uRole == 1}">
 	function deleteOk() {
 		if(confirm("삭제하시겠습니까?")){
 			let query = "num=${dto.num}&${query}";
@@ -168,7 +168,7 @@
 				</c:choose>
 				
 				<c:choose>
-					<c:when test="${sessionScope.member.userId == dto.userId || sessionScope.member.userId == 'admin'}">
+					<c:when test="${sessionScope.member.userId == dto.userId || sessionScope.member.uRole == 1}">
 						<button type="button" class="btn" onclick="deleteOk();">삭제</button>
 					</c:when>
 					<c:otherwise>

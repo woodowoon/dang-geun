@@ -16,7 +16,21 @@
 .msg-box {
 	text-align: center; color: blue;
 }
+
+.form .img-viewer {
+	cursor: pointer;
+	border: 1px solid #ccc;
+	width: 60px;
+	height: 60px;
+	border-radius: 45px;
+	background-image: url("${pageContext.request.contextPath}/resource/images/add_photo.png");
+	position: relative;
+	z-index: 9999;
+	background-repeat : no-repeat;
+	background-size : cover;
+}
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 
 function memberOk(){
@@ -31,6 +45,11 @@ function memberOk(){
 	}
 	
 	// 아이디 중복검사
+	if(f.userIdValid.value === "false"){
+		alert("아이디 중복확인을 하지 않았습니다.");
+		f.userId.focus();
+		return;
+	}
 	
 	
 	str = f.uPwd.value;
@@ -45,6 +64,7 @@ function memberOk(){
 		f.uPwd.focus();
 		return;
 	}
+	
 	
 	str = f.uName.value;
 	if(! /^[가-힣]{2,5}$/.test(str)){
@@ -93,6 +113,76 @@ function memberOk(){
 	f.submit();
 	
 }
+
+
+function userIdCheck() {
+	let userId = $("#userId").val();
+	
+	if(! /^[a-z][a-z0-9_]{4,9}$/i.test(userId)){
+		let s = "아이디는 첫글자는 영문자로 시작하며 5~10자 이내로 가능합니다.";
+		$("#userId").focus();
+		$("#userId").parent().next(".restrict").html(s);
+		return;
+	}
+	
+	let url = "${pageContext.request.contextPath}/member/userIdCheck.do";
+	let query = "userId=" + userId;
+	
+	$.ajax({
+		type: "post",
+		url: url,
+		data: query,
+		dataType: "json",
+		success:function(data){
+			let passed = data.passed;
+			
+			if(passed === "true"){
+				let s = "<span style='color:blue;font-weight:600;'>" + userId + "</span> 아이디는 사용가능합니다.";
+				$("#userId").parent().next(".restrict").html(s);
+				$("#userIdValid").val("true");
+			} else {
+				let s = "<span style='color:red;font-weight:600;'>" + userId + "</span> 아이디는 사용할 수 없습니다.";
+				$("#userId").parent().next(".restrict").html(s);
+				$("#userIdValid").val("false");
+				$("#userId").focus();
+			}
+		},
+		error:function(e){
+			console.log(e.responseText);
+		}
+	});
+	
+}
+
+
+$(function(){
+	$(".form .img-viewer").click(function(){
+		$("form[name=memberForm] input[name=selectFile]").trigger("click");
+	});
+	
+	$("form[name=memberForm] input[name=selectFile]").change(function(){
+		let img;
+		
+		let file = this.files[0];
+		if(!file){
+			$(".form .img-viewer").empty();
+			img = "${pageContext.request.contextPath}/resource/images/add_photo.png";
+			$(".form .img-viewer").css("background-image","url("+img+")");
+			return false;
+		}
+		
+		let reader = new FileReader();
+		reader.onload = function(e){
+			$(".form .img-viewer").empty();
+			$(".form .img-viewer").css("background-image","url("+e.target.result+")");
+		};
+		
+		reader.readAsDataURL(file);
+		
+	});
+});
+
+
 </script>
 
 <jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>
@@ -110,12 +200,24 @@ function memberOk(){
 			<h3 class="title"><span>|</span> 회원가입</h3>
 		</div>
 		
-		<form name = "memberForm" method="post">
+		<form name = "memberForm" method="post" enctype="multipart/form-data">
 			<table class="table table-border table-form" >
+				<tr>
+					<td>프로필<br>사진</td>
+					<td>
+						<div class="form">
+			            	<div class="img-viewer"></div>
+			            	<input type="file" name="selectFile" accept="image/*" style="display: none;">
+						</div>
+		            </td>
+				</tr>
 				<tr>
 					<td>아이디</td>
 					<td>
-						<input type="text" name="userId" id="userId" maxlength="10" class="form-control">
+						<p>
+							<input type="text" name="userId" id="userId" maxlength="10" class="form-control" style="width: 70%;">
+							<button type="button" class="btn" onclick="userIdCheck();">중복확인</button>
+						</p>
 						<p class="restrict">아이디는 5자~10자 이내로 입력해주세요</p>
 					</td>											
 				</tr>
@@ -132,17 +234,23 @@ function memberOk(){
 						<input type="password" name="uPwd2" class="form-control" maxlength="10">
 						<p class="restrict">패스워드를 한 번 더 입력해주세요.</p>
 					</td>
+				</tr>
+				<tr>
+					<td>관리자</td>
+					<td>
+						<input type="checkbox" name="uRole" id="uRole" value="1">
+					</td>
 				</tr>     	
 	       		<tr>
 					<td>이름</td>
 					<td>
-						<input type="text" name="uName" class="form-control" maxlength="10" >
+						<input type="text" name="uName" class="form-control" maxlength="10" style="width: 70%">
 					</td>
 				</tr>
 	       		<tr>
 					<td>닉네임</td>
 					<td>
-						<input type="text" name="uNick" class="form-control" maxlength="10" >
+						<input type="text" name="uNick" class="form-control" maxlength="10" style="width: 70%">
 					</td>
 				</tr>
 				<tr>
@@ -160,8 +268,8 @@ function memberOk(){
 								<option value="061">061</option>
 								<option value="070">070</option>
 							</select>
-							<input type="text" name="uTel2" class="form-control" maxlength="11" pattern="\d*">-
-							<input type="text" name="uTel3" class="form-control" maxlength="11" pattern="\d*">
+							<input type="text" name="uTel2" class="form-control" maxlength="4" pattern="\d*">-
+							<input type="text" name="uTel3" class="form-control" maxlength="4" pattern="\d*">
 							<p class="restrict">전화번호는 숫자만 입력해주세요.</p>
 						</div>
 					</td>
@@ -190,9 +298,10 @@ function memberOk(){
 			<table class="table">
 				<tr>
 					<td align="center">
+						<input type="hidden" name="userIdValid" id="userIdValid" value="false">
 						<button type="button" class="btn" onclick="memberOk();">가입하기</button>
 						<button type="reset" class="btn">다시입력</button>
-						<button type="button" class="btn" onclick="">가입취소</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/';">가입취소</button>
 					</td>
 				</tr>
 				
