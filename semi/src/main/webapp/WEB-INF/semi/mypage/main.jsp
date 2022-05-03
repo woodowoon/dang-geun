@@ -163,7 +163,7 @@ $(function(){
 					<th style="width: 15%">판매상태</th>
 				</tr>
 			<c:forEach var ="dto" items="${sellList}">
-				<tr style="cursor:pointer;" onclick="location.href='';">
+				<tr>
 					<td>	
 						<img src="${pageContext.request.contextPath}/uploads/notice/${dto.photoName}" style="width:100px; height:100px;">
 					</td>
@@ -173,7 +173,7 @@ $(function(){
 					<td>
 						<c:choose>
 							<c:when test="${dto.status == 0}">
-								<button type="button" class="btn" onclick="location.href='';">판매중</button>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/article.do?num=${dto.code}';">판매중</button>
 							</c:when>
 							<c:when test="${dto.status == 1}">
 								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/sellRequest.do?num=${dto.code}&flag=complete&${query}';" style="margin-bottom: 10px;">거래완료</button>
