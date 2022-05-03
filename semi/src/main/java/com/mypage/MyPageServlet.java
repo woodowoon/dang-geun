@@ -49,6 +49,7 @@ public class MyPageServlet extends MyUploadServlet{
 	protected void main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		MyPageDAO dao = new MyPageDAO();
 		List<CmmuDTO> cmmuList = null;
+		String cp = req.getContextPath();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -56,6 +57,8 @@ public class MyPageServlet extends MyUploadServlet{
 		try {
 			
 			// 커뮤니티
+			String articleUrl = cp + "/community/article.do?page=1";
+			
 			int rCode = info.getrCode();
 			String rName = dao.region(rCode);
 			String userId = info.getUserId();
@@ -66,6 +69,7 @@ public class MyPageServlet extends MyUploadServlet{
 			req.setAttribute("rName", rName);
 			req.setAttribute("cmmuCount", cmmuCount);
 			req.setAttribute("cmmuList", cmmuList);
+			req.setAttribute("articleUrl", articleUrl);
 			
 			forward(req, resp, "/WEB-INF/semi/mypage/main.jsp");
 			

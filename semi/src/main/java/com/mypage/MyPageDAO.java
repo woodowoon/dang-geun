@@ -186,7 +186,7 @@ public class MyPageDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT rName, subject, TO_CHAR(c.reg_date,'YYYY-MM-DD') reg_date ");
+			sb.append("SELECT cNum, rName, subject, TO_CHAR(c.reg_date,'YYYY-MM-DD') reg_date ");
 			sb.append(" FROM community c ");
 			sb.append(" JOIN member m ON c.userId=m.userId ");
 			sb.append(" JOIN region r ON m.rCode=r.rCode ");
@@ -199,6 +199,7 @@ public class MyPageDAO {
 			while(rs.next()) {
 				CmmuDTO dto = new CmmuDTO();
 				
+				dto.setNum(rs.getInt("cNum"));
 				dto.setrName(rs.getString("rName"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setReg_date(rs.getString("reg_date"));

@@ -200,7 +200,7 @@ $(function(){
 					<c:forEach var="cmmu" items="${cmmuList}">
 					<tr>
 						<td>${cmmu.rName}</td>
-						<td>${cmmu.subject}</td>
+						<td><a href="${articleUrl}&num=${cmmu.num}">${cmmu.subject}</a></td>
 						<td>${cmmu.reg_date}</td>
 					<tr>
 					</c:forEach>
