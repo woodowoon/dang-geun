@@ -1,23 +1,36 @@
 package com.member;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
-import com.util.SemiServlet;
+import org.json.JSONObject;
 
+import com.util.MyUploadServlet;
+
+@MultipartConfig
 @WebServlet("/member/*")
-public class MemberServlet extends SemiServlet {
+public class MemberServlet extends MyUploadServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private String pathname;
 
 	@Override
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
+		
+		String root = req.getServletContext().getRealPath("/");
+		pathname = root + "uploads" + File.separator + "photo";
 		
 		String uri = req.getRequestURI();
 		
@@ -31,6 +44,8 @@ public class MemberServlet extends SemiServlet {
 			joinForm(req, resp);
 		} else if(uri.indexOf("join_ok.do") != -1) {
 			joinSubmit(req, resp);
+		} else if(uri.indexOf("userIdCheck.do") != -1) {
+			userIdCheck(req, resp);
 		}
 	}
 
@@ -117,12 +132,26 @@ public class MemberServlet extends SemiServlet {
 			dto.setuPwd(req.getParameter("uPwd"));
 			dto.setuName(req.getParameter("uName"));
 			dto.setuNick(req.getParameter("uNick"));
+			String role = req.getParameter("uRole");
+			if(role != null) {
+				dto.setuRole(Integer.parseInt(role));
+			} else {
+				dto.setuRole(0);
+			}
 			
 			String tel;
 			tel = req.getParameter("uTel1") + req.getParameter("uTel2") + req.getParameter("uTel3");
 			dto.setuTel(tel);
 			
-			dto.setPhotoName(req.getParameter("photoName"));
+			String filename = null;
+			Part p = req.getPart("selectFile");
+			Map<String, String> map = doFileUpload(p, pathname);
+			System.out.println(pathname);
+			if(map != null) {
+				filename = map.get("saveFilename");
+			}
+			
+			dto.setPhotoName(filename);
 			dto.setrCode(Integer.parseInt(req.getParameter("rCode")));
 			
 			dao.insertMember(dto);
@@ -145,5 +174,27 @@ public class MemberServlet extends SemiServlet {
 		req.setAttribute("message", message);
 		forward(req, resp, "/WEB-INF/semi/member/join.jsp");
 	}
+	
+	
+	
+	protected void userIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		MemberDAO dao = new MemberDAO();
+		
+		String userId = req.getParameter("userId");
+		MemberDTO dto = dao.readMember(userId);
+		
+		String passed = "false";
+		if(dto == null) {
+			passed = "true";
+		}
+		
+		JSONObject job = new JSONObject();
+		job.put("passed", passed);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
+	}
+	
 	
 }
