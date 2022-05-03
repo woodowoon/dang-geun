@@ -17,20 +17,13 @@
 	<div class="title">
 		<h3><i class="fa-solid fa-carrot"></i> 나눔중인 상품 </h3>
 	</div>
-	<table class= "mypage mySell">
+	<table class= "mypage myshare">
 		<tr>
 			<th style="width: 20%">제품사진</th>
 			<th>제품명</th>
 			<th style="width: 15%">등록일</th>
 			<th style="width: 15%">나눔완료</th>
-		</tr>
-		<c:forEach var="vo" items="${listSell}">
-			<tr>
-				<td>${vo.subject }</td>
-			<tr>
-			
-		</c:forEach>
-			<tr></tr>			
+		</tr>			
 	</table>
 	<div class="page-box">
 			${dataCount == 0 ? "현재 판매중인 상품이 없습니다." : paging}

@@ -232,9 +232,9 @@ $(function(){
 			<div class="page-box">
 					${dataCount == 0 ? "게시한 커뮤니티 글이 없습니다." : paging}
 			</div>
-			<table class= "mypage myshare">
-				<jsp:include page="/WEB-INF/semi/mypage/main_share.jsp"></jsp:include>
-			</table>
+			
+			<jsp:include page="/WEB-INF/semi/mypage/main_share.jsp"></jsp:include>
+
 		</form>
 	</div>
 </div>
