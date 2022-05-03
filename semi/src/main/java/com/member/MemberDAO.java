@@ -73,16 +73,17 @@ public class MemberDAO {
 			conn.setAutoCommit(false);
 			
 			sql = "INSERT INTO member(userId,uName,uPwd,uRole,uTel,uNick,reg_date,photoName,rCode) "
-				+ " VALUES (?,?,?,0,?,?,SYSDATE,?,?) ";
+				+ " VALUES (?,?,?,?,?,?,SYSDATE,?,?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getuName());
 			pstmt.setString(3, dto.getuPwd());
-			pstmt.setString(4, dto.getuTel());
-			pstmt.setString(5, dto.getuNick());
-			pstmt.setString(6, dto.getPhotoName());
-			pstmt.setInt(7, dto.getrCode());
+			pstmt.setInt(4, dto.getuRole());
+			pstmt.setString(5, dto.getuTel());
+			pstmt.setString(6, dto.getuNick());
+			pstmt.setString(7, dto.getPhotoName());
+			pstmt.setInt(8, dto.getrCode());
 			
 			pstmt.executeUpdate();
 			
@@ -109,5 +110,58 @@ public class MemberDAO {
 			}
 		}
 	}
+	
+	
+	public MemberDTO readMember(String userId) {
+		MemberDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append(" SELECT userId,uName,uPwd,uRole,uTel,uNick,reg_date,photoName,rCode ");
+			sb.append(" FROM member ");
+			sb.append(" WHERE userId=? ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, userId);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new MemberDTO();
+				
+				dto.setUserId(rs.getString("userId"));
+				dto.setuName(rs.getString("uName"));
+				dto.setuPwd(rs.getString("uPwd"));
+				dto.setuRole(rs.getInt("uRole"));
+				dto.setuTel(rs.getString("uTel"));
+				dto.setuNick(rs.getString("uNick"));
+				dto.setReg_date(rs.getString("reg_date"));
+				dto.setPhotoName(rs.getString("photoName"));
+				dto.setrCode(rs.getInt("rCode"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return dto;
+	}
+	
 	
 }

@@ -80,7 +80,7 @@ public class CmmuServlet extends MyUploadServlet {
 			if(info != null) {
 				rCode = info.getrCode();
 				rName = dao.region(rCode);
-				if(info.getUserId().equals("admin")) {
+				if(info.getuRole() == 1) {
 					rCode = 0;
 					rName = "관리";
 				}
@@ -196,7 +196,7 @@ public class CmmuServlet extends MyUploadServlet {
 			String keyword = req.getParameter("keyword");
 			
 			int rCode = info.getrCode();
-			if(info.getUserId().equals("admin")) {
+			if(info.getrCode() == 1) {
 				rCode = 0;
 			}
 			
@@ -277,6 +277,7 @@ public class CmmuServlet extends MyUploadServlet {
 			dto.setContent(req.getParameter("content"));
 			
 			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
+			System.out.println(pathname);
 			if(map != null) {
 				String[] saveFiles = map.get("saveFilenames");
 				dto.setImageFiles(saveFiles);
