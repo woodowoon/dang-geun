@@ -124,7 +124,7 @@ function search(){
 	<div class="body-container">
 		<div class="board">
 			<div class="title">
-				<h3><i class="fa-solid fa-clipboard-question"></i> 자주 묻는 질문</h3>
+				<h3><i class="fa-solid fa-carrot"></i> 자주 묻는 질문</h3>
 			</div>
 			
 			<form name = "searchForm" method = "post" action="${pageContext.request.contextPath}/FAQ/list.do" >
