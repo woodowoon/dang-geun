@@ -193,6 +193,8 @@ public class MyPageDAO {
 		return list;
 	}
 	
+	
+	
 	//프로필사진 등록
 	
 	//판매중인 상품 갯수

@@ -48,17 +48,6 @@ public class MyPageServlet extends MyUploadServlet{
 	
 	protected void main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		MyPageDAO dao = new MyPageDAO();
-		
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
-		String userId = info.getUserId();
-		
-		List<sellDTO> sellList =  dao.listSell(userId);
-		
-		req.setAttribute("sellList", sellList);
-		
 		String path = "/WEB-INF/semi/mypage/main.jsp";
 		forward(req, resp, path);
 		
