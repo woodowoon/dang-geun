@@ -137,13 +137,26 @@ public class MyPageDAO {
 		return list;
 	}
 	
-	//커뮤니티 글 찾기
-	public CmmuDTO readCmmu(int sNum) {
-		CmmuDTO dto = null;
+	//커뮤니티 글 수
+	public int countCmmu(String userId) {
+		int count = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
 		
 		try {
+			sb.append(" SELECT NVL(COUNT(*),0) ");
+			sb.append(" FROM community c ");
+			sb.append(" JOIN member m ON c.userId=m.userId ");
+			sb.append(" WHERE m.userId=? ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -162,16 +175,36 @@ public class MyPageDAO {
 			}
 		}
 		
-		return dto;
+		return count;
 	}
 	
 	//커뮤니티에 쓴 글 리스트
-	public List<CmmuDTO> listCmmu(int sNum) {
+	public List<CmmuDTO> listCmmu(String userId) {
 		List<CmmuDTO> list = new ArrayList<CmmuDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
 		
 		try {
+			sb.append("SELECT rName, subject, TO_CHAR(c.reg_date,'YYYY-MM-DD') reg_date ");
+			sb.append(" FROM community c ");
+			sb.append(" JOIN member m ON c.userId=m.userId ");
+			sb.append(" JOIN region r ON m.rCode=r.rCode ");
+			sb.append(" WHERE m.userId=? ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CmmuDTO dto = new CmmuDTO();
+				
+				dto.setrName(rs.getString("rName"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setReg_date(rs.getString("reg_date"));
+				
+				list.add(dto);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -191,6 +224,44 @@ public class MyPageDAO {
 		}
 		
 		return list;
+	}
+	
+	
+	public String region(int num) {
+		String rName = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT rName FROM region WHERE rCode=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				rName = rs.getString(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		return rName;
 	}
 	
 	

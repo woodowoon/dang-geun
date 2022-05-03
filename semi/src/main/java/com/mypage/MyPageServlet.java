@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cmmu.CmmuDTO;
 import com.member.SessionInfo;
-import com.sell.sellDTO;
 import com.util.MyUploadServlet;
 
 @MultipartConfig
@@ -47,9 +47,33 @@ public class MyPageServlet extends MyUploadServlet{
 	}
 	
 	protected void main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		MyPageDAO dao = new MyPageDAO();
+		List<CmmuDTO> cmmuList = null;
 		
-		String path = "/WEB-INF/semi/mypage/main.jsp";
-		forward(req, resp, path);
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			
+			// 커뮤니티
+			int rCode = info.getrCode();
+			String rName = dao.region(rCode);
+			String userId = info.getUserId();
+			cmmuList = dao.listCmmu(userId);
+			
+			int cmmuCount = dao.countCmmu(userId);
+			
+			req.setAttribute("rName", rName);
+			req.setAttribute("cmmuCount", cmmuCount);
+			req.setAttribute("cmmuList", cmmuList);
+			
+			forward(req, resp, "/WEB-INF/semi/mypage/main.jsp");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		
 	}
 	

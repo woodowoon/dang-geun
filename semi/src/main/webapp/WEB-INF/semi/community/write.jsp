@@ -129,7 +129,7 @@ function sendOk() {
 </header>
 
 <main>
-	<div class="body-container" style="width: 700px;">
+	<div class="body-container">
 		<div class="title">
 			<h3><i class="fas fa-chalkboard-teacher"></i> 커뮤니티글쓰기 </h3>
 		</div>

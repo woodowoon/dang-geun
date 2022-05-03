@@ -277,7 +277,6 @@ public class CmmuServlet extends MyUploadServlet {
 			dto.setContent(req.getParameter("content"));
 			
 			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
-			System.out.println(pathname);
 			if(map != null) {
 				String[] saveFiles = map.get("saveFilenames");
 				dto.setImageFiles(saveFiles);
