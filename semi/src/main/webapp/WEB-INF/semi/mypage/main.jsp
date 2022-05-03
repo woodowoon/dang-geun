@@ -60,9 +60,6 @@
 	border-radius: 70px;
 	border-color:#FF8A3D;
 	background-image: url("${pageContext.request.contextPath}/resource/images/add_photo.png");
-	<c:if test="${not empty sessionScope.member.photoName}">
-		background-image: url("${pageContext.request.contextPath}/uploads/member/${sessionScope.member.photoName}");
-	</c:if>
 	position: relative;
 	z-index: 9999;
 	background-repeat : no-repeat;
