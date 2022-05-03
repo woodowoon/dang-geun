@@ -666,22 +666,25 @@ public class shareDAO {
 		String sql;
 		
 		try {
-			sql = " UPDATE shareTable SET bId = ?, status = ? WHERE code = ?";
+			sql = " UPDATE shareTable SET bId = ?, status = ?, share_date = ? WHERE code = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			if(status == 0) {
 				pstmt.setString(1, null);
 				pstmt.setInt(2, status);
-				pstmt.setInt(3, dto.getCode());
+				pstmt.setString(3, null);
+				pstmt.setInt(4, dto.getCode());
 			} else if(status == 1) {
 				pstmt.setString(1, dto.getbId());
 				pstmt.setInt(2, status);
-				pstmt.setInt(3, dto.getCode());
+				pstmt.setString(3, null);
+				pstmt.setInt(4, dto.getCode());
 			} else {
 				pstmt.setString(1, dto.getbId());
 				pstmt.setInt(2, status);
-				pstmt.setInt(3, dto.getCode());
+				pstmt.setString(3, "SYSDATE");
+				pstmt.setInt(4, dto.getCode());
 			}
 			
 			
