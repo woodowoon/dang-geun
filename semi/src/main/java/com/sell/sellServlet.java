@@ -74,6 +74,7 @@ public class sellServlet extends MyUploadServlet {
 			
 			
 			String page = req.getParameter("page");
+			
 			int current_page = 1;
 			
 			if(page != null) {

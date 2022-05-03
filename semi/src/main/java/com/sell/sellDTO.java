@@ -10,6 +10,7 @@ public class sellDTO {
 	private String rCode;
 	private String rName;
 	private String reg_date;
+	private String sell_date;
 	private int hitCount;
 	private String uNick;
 	private int status;
@@ -90,6 +91,15 @@ public class sellDTO {
 
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
+	}
+	
+
+	public String getSell_date() {
+		return sell_date;
+	}
+
+	public void setSell_date(String sell_date) {
+		this.sell_date = sell_date;
 	}
 
 	public int getHitCount() {

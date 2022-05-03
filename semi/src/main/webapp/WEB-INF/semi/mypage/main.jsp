@@ -140,7 +140,7 @@ $(function(){
 						당근 판매량
 					</th>		
 					<td>
-						000
+						총 ${itemCount} 개
 					</td>
 					<th>
 						커뮤니티<br>활동량
@@ -173,7 +173,7 @@ $(function(){
 					<td>
 						<c:choose>
 							<c:when test="${dto.status == 0}">
-								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/article.do?num=${dto.code}';">판매중</button>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/article.do?num=${dto.code}&page=1';">판매중</button>
 							</c:when>
 							<c:when test="${dto.status == 1}">
 								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/sellRequest.do?num=${dto.code}&flag=complete&${query}';" style="margin-bottom: 10px;">거래완료</button>
@@ -196,17 +196,26 @@ $(function(){
 			<table class= "mypage mySold">
 				<tr>
 					<th style="width: 20%">제품사진</th>
-					<th style="">제품명</th>
+					<th style="">제목</th>
 					<th style="width: 15%">판매가격</th>
 					<th style="width: 15%">등록일</th>
 					<th style="width: 15%">판매일</th>
 				</tr>
+								
+				<c:forEach var ="dto" items="${soldList}">
 				<tr>
-					<td>판매완료</td>
-				<tr>
+					<td>	
+						<img src="${pageContext.request.contextPath}/uploads/notice/${dto.photoName}" style="width:100px; height:100px;">
+					</td>
+					<td>${dto.subject}</td>
+					<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${dto.price}" /></td>
+					<td>${fn:substring(dto.reg_date, 0, 11)}</td>
+					<td>${fn:substring(dto.sell_date, 0, 11)}</td>
+				</tr>
+			</c:forEach>	
 			</table>
 			<div class="page-box">
-					${dataCount == 0 ? "판매 완료된 상품이 없습니다." : paging}
+					${dataCount == 0 ? "판매 완료된 상품이 없습니다." : soldPaging}
 			</div>
 			
 			

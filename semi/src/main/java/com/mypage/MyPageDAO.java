@@ -27,13 +27,16 @@ public class MyPageDAO {
 			if(mode.equals("sell")) {
 				sql = " SELECT COUNT(*) FROM item "
 					+ " WHERE status <> 2 AND userId = ?";
-			} else if(mode.equals("sellOk")){
+			} else if(mode.equals("sold")){
 				sql = " SELECT COUNT(*) FROM item "
 					+ " WHERE status = 2 AND userId = ? ";
+			} else if(mode.equals("all")) {
+				sql = " SELECT COUNT(*) FROM item "
+					+ " WHERE userId = ? ";
 			}
 			pstmt = conn.prepareStatement(sql);
 			
-			if(mode.equals("sell") || mode.equals("sellOk")) {
+			if(mode.equals("sell") || mode.equals("sold") || mode.equals("all")) {
 				pstmt.setString(1, userId);
 			}
 			rs = pstmt.executeQuery();
@@ -91,7 +94,7 @@ public class MyPageDAO {
 	}
 	
 	//판매중인 아이템 리스트
-	public List<sellDTO> listSell(String userId, int start, int end) {
+	public List<sellDTO> listSell(String mode, String userId, int start, int end) {
 		List<sellDTO> list = new ArrayList<sellDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -99,7 +102,7 @@ public class MyPageDAO {
 		try {
 			sb.append(" SELECT * FROM ( ");
 			sb.append(" 	SELECT ROWNUM rnum, tb.* FROM( ");
-			sb.append("			SELECT i.code, subject, p.photoName, price, reg_date, status ");
+			sb.append("			SELECT i.code, subject, p.photoName, price, reg_date, status, sell_date ");
 			sb.append("			FROM item i LEFT OUTER JOIN ( ");
 			sb.append(" 			SELECT tb1.pnum, tb1.Code, tb1.photoName FROM ( ");
 			sb.append(" 				SELECT ROW_NUMBER()OVER( ");
@@ -108,7 +111,11 @@ public class MyPageDAO {
 			sb.append(" 				)AS RNUM, itemPhoto.* FROM itemphoto "); 
 			sb.append(" 			)tb1 WHERE rnum = 1 "); 
 			sb.append(" 		)P ON i.code = p.code "); 
-			sb.append("		  	WHERE status <> 2 AND userId = ? "); 
+			if(mode.equals("sell")) {
+				sb.append("		  	WHERE status <> 2 AND userId = ? "); 
+			} else if(mode.equals("sold")) {
+				sb.append("		  	WHERE status = 2 AND userId = ? ");
+			}
 			sb.append("			ORDER BY code DESC "); 
 			sb.append(" 	)tb  WHERE ROWNUM <= ? "); 
 			sb.append(" )WHERE rnum >= ? "); 
@@ -128,6 +135,7 @@ public class MyPageDAO {
 				dto.setPhotoName(rs.getString("photoName"));
 				dto.setPrice(rs.getInt("price"));
 				dto.setReg_date(rs.getString("reg_date"));
+				dto.setSell_date(rs.getString("sell_date"));
 				dto.setStatus(rs.getInt("status"));
 				
 				list.add(dto);
