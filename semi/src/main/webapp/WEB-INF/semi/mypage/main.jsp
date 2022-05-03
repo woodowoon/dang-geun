@@ -21,15 +21,17 @@
 	border-top: 2px solid #FF8A3D;
 	border-bottom: 2px solid #FF8A3D;
 }
-.container .info th{
+.container .info th {
 	color: #fff;
 	background: #FF8A3D;
 	width: 15%;
 	height: 50%;
 }
-.container .info th + td{
+
+.container .info th + td {
 	padding-left: 10px;
 }
+
 .mypage{
 	width: 100%;
 	border-collapse: collapse;
