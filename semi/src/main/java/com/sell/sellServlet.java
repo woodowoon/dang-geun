@@ -432,12 +432,14 @@ public class sellServlet extends MyUploadServlet {
 		}
 		String page = req.getParameter("page");
 		String flag = req.getParameter("flag");
+		String rCode= req.getParameter("rCode");
+		
 		String id = info.getUserId();
 		
 		try {
 			int num = Integer.parseInt(req.getParameter("num"));
 			if(dao.readSell(num).getStatus() != 0 || dao.readSell(num) == null) {
-				resp.sendRedirect(cp +"/sell/list.do");
+				resp.sendRedirect(cp +"/sell/list.do&page="+page+"&rCode="+rCode);
 				return;
 			}
 			
@@ -448,7 +450,7 @@ public class sellServlet extends MyUploadServlet {
 		}
 		
 		if(flag.equals("request")) {
-			resp.sendRedirect(cp+"/sell/list.do?page=" + page);
+			resp.sendRedirect(cp+"/sell/list.do?page=" + page + "&rCode=" +rCode);
 		} else {
 			resp.sendRedirect(cp+"/mypage/list.do");
 		}

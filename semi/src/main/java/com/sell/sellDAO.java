@@ -134,7 +134,7 @@ public class sellDAO {
 		
 		try {
 			sql = " SELECT COUNT(*) FROM item "
-				+ " WHERE status <> 2 ";
+				+ " WHERE status = 0 ";
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -172,13 +172,13 @@ public class sellDAO {
 		try {
 			sql = " SELECT COUNT(*) FROM item ";
 			if((! rCode.equals("0")) && keyword != "") {
-				sql += " WHERE rCode = ? AND INSTR(subject, ?) >= 1 AND status <> 2"; 
+				sql += " WHERE rCode = ? AND INSTR(subject, ?) >= 1 AND status = 0"; 
 			} else if(keyword != "") {
-				sql += " WHERE INSTR(subject, ?) >= 1 AND status <> 2";
+				sql += " WHERE INSTR(subject, ?) >= 1 AND status = 0";
 			} else if((! rCode.equals("0"))) {
-				sql += " WHERE rCode = ? AND status <> 2";
+				sql += " WHERE rCode = ? AND status = 0";
 			} else {
-				sql += " WHERE status <> 2";
+				sql += " WHERE status = 0";
 			}
 				
 			pstmt = conn.prepareStatement(sql);
@@ -298,7 +298,7 @@ public class sellDAO {
 			sb.append(" 				)AS RNUM, itemPhoto.* FROM itemphoto "); 
 			sb.append(" 			)tb1 WHERE rnum = 1 "); 
 			sb.append(" 		)P ON i.code = p.code "); 
-			sb.append("		  	WHERE status <> 0 ");
+			sb.append("		  	WHERE status = 0 ");
 			if((! rCode.equals("0")) && keyword != "") {
 				sb.append(" 		AND rCode = ? AND INSTR(subject, ?) >= 1 ");
 			} else if(rCode.equals("0")) {
