@@ -58,6 +58,10 @@ public class shareServlet extends MyUploadServlet {
 			shareDelete(req, resp);
 		} else if(uri.indexOf("deleteFile") != -1) {
 			deleteFile(req, resp);
+		} else if(uri.indexOf("shareApp.do") != -1) {
+			shareApp(req, resp);
+		} else if(uri.indexOf("shareAppCancel.do") != -1) {
+			shareAppCancel(req, resp);
 		}
 	}
 	
@@ -171,6 +175,7 @@ public class shareServlet extends MyUploadServlet {
 		
 		try {
 			int code = Integer.parseInt(req.getParameter("code"));
+			int status = dao.readShareApp(code);
 			String rCode = req.getParameter("rCode");
 			String keyword = req.getParameter("keyword");
 			
@@ -202,6 +207,8 @@ public class shareServlet extends MyUploadServlet {
 			req.setAttribute("dto", dto);
 			req.setAttribute("listFile", listFile);
 			req.setAttribute("page", page);
+			req.setAttribute("status", status);
+			req.setAttribute("query", query);
 			
 			forward(req, resp, "/WEB-INF/semi/share/article.jsp");
 			return;
@@ -421,4 +428,51 @@ public class shareServlet extends MyUploadServlet {
 		resp.sendRedirect(cp + "/share/list.do?page=" + page);
 		
 	}
+	
+	// 나눔신청
+	protected void shareApp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		shareDAO dao = new shareDAO();
+		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		
+		try {
+			shareDTO dto = new shareDTO();
+			
+			dto.setCode(Integer.parseInt(req.getParameter("code")));
+			dto.setbId(info.getUserId());
+
+			dao.shareApp(dto, 1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/share/list.do?page=" + page);
+	}
+	
+	// 나눔 신청 취소
+	protected void shareAppCancel(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		shareDAO dao = new shareDAO();
+		String cp = req.getContextPath();
+		
+		String page = req.getParameter("page");
+		
+		try {
+			shareDTO dto = new shareDTO();
+			
+			dto.setCode(Integer.parseInt(req.getParameter("code")));
+
+			dao.shareApp(dto, 0);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/share/list.do?page=" + page);
+	}
+	
 }

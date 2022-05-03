@@ -415,7 +415,7 @@ public class shareDAO {
 		String sql;
 		
 		try {
-			sql = " SELECT code, m.uNick, r.rCode, s.userId, subject, content, s.reg_date, rName, hitCount  "
+			sql = " SELECT code, m.uNick, r.rCode, s.userId, subject, content, s.reg_date, rName, hitCount, bId  "
 				+ " FROM shareTable s "
 				+ " JOIN member m ON s.userId = m.userId "
 				+ " JOIN region r ON s.rCode = r.rCode WHERE "
@@ -439,6 +439,7 @@ public class shareDAO {
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setrCode(rs.getInt("rCode"));
+				dto.setbId(rs.getString("bId"));
 			}
 			
 		} catch (SQLException e) {
@@ -657,5 +658,99 @@ public class shareDAO {
 			}
 		}
 	}
+	
+	// 나눔 신청
+	public void shareApp(shareDTO dto, int status) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = " UPDATE shareTable SET bId = ?, status = ? WHERE code = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			if(status == 0) {
+				pstmt.setString(1, null);
+				pstmt.setInt(2, status);
+				pstmt.setInt(3, dto.getCode());
+			} else if(status == 1) {
+				pstmt.setString(1, dto.getbId());
+				pstmt.setInt(2, status);
+				pstmt.setInt(3, dto.getCode());
+			} else {
+				pstmt.setString(1, dto.getbId());
+				pstmt.setInt(2, status);
+				pstmt.setInt(3, dto.getCode());
+			}
+			
+			
+			
+			rs = pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+					
+				}
+			} if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+	}
+	
+	public int readShareApp(int code) {
+		shareDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = " SELECT status  "
+				+ " FROM shareTable WHERE "
+				+ " code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, code);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new shareDTO();
+				
+				dto.setStatus(rs.getInt("status"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+		
+		return dto.getStatus();
+	}
+	
 	
 }
