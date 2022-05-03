@@ -127,7 +127,7 @@ function deleteFile(pNum){
 </header>
 
 <main>
-	<div class="body-container" style="width: 700px;">
+	<div class="body-container">
 		<div class="title">
 			<h3><i class="fa-solid fa-carrot"></i> 이벤트 ${mode == "update" ? "수정" : "등록" }하기 </h3>
 		</div>
