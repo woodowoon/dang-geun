@@ -110,6 +110,25 @@ function deleteShare() {
     }
 }
 
+function shareApp() {
+	if(${status} == 0) {
+		if(confirm("나눔신청을 하시겠습니까?")) {
+			let url = "${pageContext.request.contextPath}/share/shareApp.do?code=${dto.code}&page=${page}";
+			location.href = url;
+		}
+	} else {
+		alert("나눔거래중 입니다. 파기될때까지 기다려주세요");
+	}
+}
+
+function shareAppCancel() {
+	if(confirm("나눔신청을 취소 하시겠습니까?")) {
+		let url = "${pageContext.request.contextPath}/share/shareAppCancel.do?code=${dto.code}&page=${page}";
+		location.href = url;
+	}
+}
+
+
 function imageViewer(img) {
 	const viewer = $(".photo-layout");
 	let s="<img src='"+img+"'>";
@@ -177,8 +196,11 @@ function imageViewer(img) {
 				<c:when test="${sessionScope.member.userId==dto.userId}">
 					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/share/update.do?code=${dto.code}&page=${page}';">수정</button>
 				</c:when>
+				<c:when test="${sessionScope.member.userId == dto.bId}">
+					<button type="button" class="btn" onclick="shareAppCancel();">나눔신청취소</button>
+				</c:when>
 				<c:otherwise>
-					<button type="button" class="btn">나눔신청</button>
+					<button type="button" class="btn" onclick="shareApp();">나눔신청</button>
 				</c:otherwise>
 			</c:choose>
 			<c:choose>
@@ -190,7 +212,7 @@ function imageViewer(img) {
 			    </c:otherwise>
 			</c:choose>
 			</div>
-			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/share/list.do';">리스트</button>
+			<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/share/list.do?${query}';">리스트</button>
 		</div>
 	</div>
 </div>

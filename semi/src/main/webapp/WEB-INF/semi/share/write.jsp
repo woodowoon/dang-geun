@@ -55,12 +55,19 @@ function sendOk() {
 		return;
 	}
 	
+	str = f.selectFile.value.trim();
 	let mode = "${mode}";
     if( (mode === "write") && (!f.selectFile.value) ) {
         alert("이미지 파일을 추가 하세요. ");
         f.selectFile.focus();
         return;
-    }
+    } else if(${mode == 'update'}) {
+		if((! str) && !( $('.reg_photo').length) ) {
+			alert("첨부파일이 없습니다.");
+			f.selectFile.focus();
+			return;
+		}
+	}
     
     f.action = "${pageContext.request.contextPath}/share/${mode}_ok.do";
     f.submit();
@@ -89,7 +96,7 @@ function sendOk() {
 </header>
 
 <main>
-	<div class="body-container" style="width: 700px;">
+	<div class="body-container">
 		<div class="title">
 			<h3><i class="fas fa-chalkboard-teacher"></i> 나눔 </h3>
 		</div>
@@ -155,7 +162,7 @@ function sendOk() {
 						<td> 
 							<div class="img-box">
 								<c:forEach var="vo" items="${listFile}">
-									<img src="${pageContext.request.contextPath}/uploads/share/${vo.photoName}"
+									<img class="reg_photo" src="${pageContext.request.contextPath}/uploads/share/${vo.photoName}"
 										onclick="deleteFile('${vo.pNum}');">
 								</c:forEach>
 							</div>

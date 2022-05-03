@@ -14,7 +14,7 @@ public class shareDTO {
 	private String reg_date;
 	private String share_date; // 나눔완료한 날짜
 	private int hitCount;
-	private int status; // 나눔중, 나눔완료
+	private int status; // 나눔중:0, 나눔신청:1, 나눔완료:2
 	
 	private int pNum;
 	private String photoName;
