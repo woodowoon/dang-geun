@@ -453,7 +453,9 @@ public class sellServlet extends MyUploadServlet {
 		if(flag.equals("request")) {
 			resp.sendRedirect(cp+"/sell/list.do?page=" + page + "&rCode=" +rCode);
 		} else {
+			System.out.println(flag);
 			resp.sendRedirect(cp+"/mypage/list.do");
+			
 		}
 	}
 }

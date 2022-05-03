@@ -176,8 +176,8 @@ $(function(){
 								<button type="button" class="btn" onclick="location.href='';">판매중</button>
 							</c:when>
 							<c:when test="${dto.status == 1}">
-								<button type="button" class="btn" onclick="location.href='';" style="margin-bottom: 10px;">거래완료</button>
-								<button type="button" class="btn" onclick="location.href='';" style="background: #777;">거래취소</button>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/sellRequest.do?num=${dto.code}&flag=complete&${query}';" style="margin-bottom: 10px;">거래완료</button>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sell/sellRequest.do?num=${dto.code}&flag=cancel&${query}';" style="background: #777;">거래취소</button>
 								
 							</c:when>
 						</c:choose>
