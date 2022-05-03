@@ -12,6 +12,7 @@ public class sellDTO {
 	private String reg_date;
 	private int hitCount;
 	private String uNick;
+	private int status;
 	
 	private int pNum;
 	private int pCode;
@@ -107,6 +108,14 @@ public class sellDTO {
 		this.uNick = uNick;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public int getpNum() {
 		return pNum;
 	}
@@ -139,8 +148,5 @@ public class sellDTO {
 		this.photoNames = photoNames;
 	}
 
-	
-	
-	
 	
 }

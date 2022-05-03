@@ -236,7 +236,7 @@ public class sellDAO {
 			sb.append(" 				)AS RNUM, itemPhoto.* FROM itemphoto "); 
 			sb.append(" 			)tb1 WHERE rnum = 1 "); 
 			sb.append(" 		)P ON i.code = p.code "); 
-			sb.append("		  	WHERE status <> 2 "); 
+			sb.append("		  	WHERE status = 0 "); 
 			sb.append("			ORDER BY code DESC "); 
 			sb.append(" 	)tb  WHERE ROWNUM <= ? "); 
 			sb.append(" )WHERE rnum >= ? "); 
@@ -298,7 +298,7 @@ public class sellDAO {
 			sb.append(" 				)AS RNUM, itemPhoto.* FROM itemphoto "); 
 			sb.append(" 			)tb1 WHERE rnum = 1 "); 
 			sb.append(" 		)P ON i.code = p.code "); 
-			sb.append("		  	WHERE status <> 2 ");
+			sb.append("		  	WHERE status <> 0 ");
 			if((! rCode.equals("0")) && keyword != "") {
 				sb.append(" 		AND rCode = ? AND INSTR(subject, ?) >= 1 ");
 			} else if(rCode.equals("0")) {
@@ -618,5 +618,40 @@ public class sellDAO {
 			}
 		}
 		
+	}
+	
+	public void updateItem(String mode, int num, String id) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql = "";
+		
+		try {
+			if(mode.equals("request")) {
+				sql = " UPDATE item SET bId = ?, status = 1 ";
+			} else if(mode.equals("complete")) {
+				sql = " UPDATE item SET bId = ?, status = 2, sell_date = SYSDATE ";
+			} else if(mode.equals("cancel")) {
+				sql = " UPDATE item SET bId = '', status = 0 ";
+			}
+			sql += " WHERE code = ?" ;
+			
+			pstmt = conn.prepareStatement(sql);
+			if(mode.equals("cancel")) {
+				pstmt.setInt(1, num);
+			} else {
+				pstmt.setString(1, id);
+				pstmt.setInt(2, num);
+			}
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e2) {
+				}
+			}
+		}
 	}
 }
