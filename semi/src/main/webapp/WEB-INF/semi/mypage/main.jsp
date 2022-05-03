@@ -238,6 +238,24 @@ $(function(){
 		<div class="page-box">
 				${dataCount == 0 ? "판매 완료된 상품이 없습니다." : paging}
 		</div>
+		
+		
+		<div class="title">
+			<h3><i class="fa-solid fa-carrot"></i> 등록한 자주 묻는 질문 </h3>
+		</div>
+		<table class= "mypage myFAQ">
+			<tr>
+				<th style="width: 20%">카테고리</th>
+				<th style="">제목</th>
+				<th style="width: 15%">등록일</th>
+			</tr>
+			<tr>
+				<td>등록한 FAQ</td>
+			<tr>
+		</table>
+		<div class="page-box">
+				${dataCount == 0 ? "판매 완료된 상품이 없습니다." : paging}
+		</div>
 	</form>
 	</div>
 </div>
