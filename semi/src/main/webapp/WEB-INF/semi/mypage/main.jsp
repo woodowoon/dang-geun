@@ -82,7 +82,6 @@ $(function(){
 			$(".form .img-viewer").css("background-image","url("+e.target.result+")");
 		};
 		reader.readAsDataURL(file);
-			
 	});
 });
 
@@ -198,6 +197,46 @@ $(function(){
 		</table>
 		<div class="page-box">
 				${dataCount == 0 ? "게시한 커뮤니티 글이 없습니다." : paging}
+		</div>
+		
+		<div class="title">
+			<h3><i class="fa-solid fa-carrot"></i> 나눔중인 상품 </h3>
+		</div>
+		<table class= "mypage mySell">
+			<tr>
+				<th style="width: 20%">제품사진</th>
+				<th>제품명</th>
+				<th style="width: 15%">등록일</th>
+				<th style="width: 15%">나눔완료</th>
+			</tr>
+			<c:forEach var="vo" items="${listSell}">
+				<tr>
+					<td>${vo.subject }</td>
+				<tr>
+				
+			</c:forEach>
+				<tr></tr>			
+		</table>
+		<div class="page-box">
+				${dataCount == 0 ? "현재 판매중인 상품이 없습니다." : paging}
+		</div>
+		
+		<div class="title">
+			<h3><i class="fa-solid fa-carrot"></i> 나눔완료 상품 </h3>
+		</div>
+		<table class= "mypage mySold">
+			<tr>
+				<th style="width: 20%">제품사진</th>
+				<th style="">제품명</th>
+				<th style="width: 15%">등록일</th>
+				<th style="width: 15%">판매일</th>
+			</tr>
+			<tr>
+				<td>판매완료</td>
+			<tr>
+		</table>
+		<div class="page-box">
+				${dataCount == 0 ? "판매 완료된 상품이 없습니다." : paging}
 		</div>
 	</form>
 	</div>
