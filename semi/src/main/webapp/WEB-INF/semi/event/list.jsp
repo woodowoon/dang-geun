@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>이벤트 리스트</title>
+<title>이벤트 - 리스트</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <style type="text/css">
 .boxTF {
@@ -14,15 +14,6 @@
 	padding: 5px 5px;
 	width: 50%;
 	background-color: #fff;
-	border-radius: 4px;
-	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
-	vertical-align: baseline;
-}
-
-.selectField {
-	border: 1px solid #999;
-	width:15%;
-	padding: 4px 3px;
 	border-radius: 4px;
 	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
 	vertical-align: baseline;

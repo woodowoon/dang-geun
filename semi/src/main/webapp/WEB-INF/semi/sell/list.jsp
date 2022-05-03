@@ -91,15 +91,19 @@
 	width: 7%;
 }
 
-
-
 </style>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+
+$(function() {
+
 function searchList() {
 	const f = document.serachForm;
 	f.submit();
 }
+
+
 </script>
 
 <jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>

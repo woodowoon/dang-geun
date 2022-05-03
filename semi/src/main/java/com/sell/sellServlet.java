@@ -56,6 +56,8 @@ public class sellServlet extends MyUploadServlet {
 			deletePhoto(req, resp);
 		} else if(uri.indexOf("delete.do") != -1) {
 			delete(req, resp);
+		} else if(uri.indexOf("sellRequest.do") != -1) {
+			purchaseRequest(req, resp);
 		}
 	}
 	
@@ -418,6 +420,40 @@ public class sellServlet extends MyUploadServlet {
 		resp.sendRedirect(cp + "/sell/list.do");
 	}
 	
-	
+	private void purchaseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		sellDAO dao = new sellDAO();
+		String cp = req.getContextPath();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		if(info == null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		String page = req.getParameter("page");
+		String flag = req.getParameter("flag");
+		String rCode= req.getParameter("rCode");
+		
+		String id = info.getUserId();
+		
+		try {
+			int num = Integer.parseInt(req.getParameter("num"));
+			if(dao.readSell(num).getStatus() != 0 || dao.readSell(num) == null) {
+				resp.sendRedirect(cp +"/sell/list.do&page="+page+"&rCode="+rCode);
+				return;
+			}
+			
+			dao.updateItem(flag, num, id);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(flag.equals("request")) {
+			resp.sendRedirect(cp+"/sell/list.do?page=" + page + "&rCode=" +rCode);
+		} else {
+			resp.sendRedirect(cp+"/mypage/list.do");
+		}
+	}
 }
 
