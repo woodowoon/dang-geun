@@ -227,7 +227,7 @@ public class sellDAO {
 		try {			
 			sb.append(" SELECT * FROM ( ");
 			sb.append(" 	SELECT ROWNUM rnum, tb.* FROM( ");
-			sb.append("			SELECT i.code, subject, p.photoName, price, reg_date, hitCount ");
+			sb.append("			SELECT i.code, subject, p.photoName, price, reg_date, hitCount, status ");
 			sb.append("			FROM item i LEFT OUTER JOIN ( ");
 			sb.append(" 			SELECT tb1.pnum, tb1.Code, tb1.photoName FROM ( ");
 			sb.append(" 				SELECT ROW_NUMBER()OVER( ");
@@ -256,6 +256,7 @@ public class sellDAO {
 				dto.setPrice(rs.getInt("price"));
 				dto.setReg_date(rs.getString("reg_date"));
 				dto.setHitCount(rs.getInt("hitCount"));
+				dto.setStatus(rs.getInt("status"));
 				
 				list.add(dto);
 			}
@@ -289,7 +290,7 @@ public class sellDAO {
 		try {
 			sb.append(" SELECT * FROM ( ");
 			sb.append(" 	SELECT ROWNUM rnum, tb.* FROM( ");
-			sb.append("			SELECT i.code, subject, p.photoName, price, reg_date, hitCount ");
+			sb.append("			SELECT i.code, subject, p.photoName, price, reg_date, hitCount, status ");
 			sb.append("			FROM item i LEFT OUTER JOIN ( ");
 			sb.append(" 			SELECT tb1.pnum, tb1.Code, tb1.photoName FROM ( ");
 			sb.append(" 				SELECT ROW_NUMBER()OVER( ");
@@ -338,6 +339,7 @@ public class sellDAO {
 				dto.setPrice(rs.getInt("price"));
 				dto.setReg_date(rs.getString("reg_date"));
 				dto.setHitCount(rs.getInt("hitCount"));
+				dto.setStatus(rs.getInt("status"));
 				
 				list.add(dto);
 			}

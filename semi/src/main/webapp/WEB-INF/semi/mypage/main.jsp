@@ -2,6 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -156,14 +157,36 @@ $(function(){
 			<table class= "mypage mySell">
 				<tr>
 					<th style="width: 20%">제품사진</th>
-					<th>제품명</th>
+					<th>제목</th>
 					<th style="width: 15%">판매가격</th>
 					<th style="width: 15%">등록일</th>
-					<th style="width: 15%">판매완료</th>
-				</tr>		
+					<th style="width: 15%">판매상태</th>
+				</tr>
+			<c:forEach var ="dto" items="${sellList}">
+				<tr style="cursor:pointer;" onclick="location.href='';">
+					<td>	
+						<img src="${pageContext.request.contextPath}/uploads/notice/${dto.photoName}" style="width:100px; height:100px;">
+					</td>
+					<td>${dto.subject}</td>
+					<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${dto.price}" /></td>
+					<td>${fn:substring(dto.reg_date, 0, 11)}</td>
+					<td>
+						<c:choose>
+							<c:when test="${dto.status == 0}">
+								<button type="button" class="btn" onclick="location.href='';">판매중</button>
+							</c:when>
+							<c:when test="${dto.status == 1}">
+								<button type="button" class="btn" onclick="location.href='';" style="margin-bottom: 10px;">거래완료</button>
+								<button type="button" class="btn" onclick="location.href='';" style="background: #777;">거래취소</button>
+								
+							</c:when>
+						</c:choose>
+					</td>
+				</tr>
+			</c:forEach>	
 			</table>
 			<div class="page-box">
-					${dataCount == 0 ? "현재 판매중인 상품이 없습니다." : paging}
+					${sellCount == 0 ? "현재 판매중인 상품이 없습니다." : sellPaging}
 			</div>
 			
 			

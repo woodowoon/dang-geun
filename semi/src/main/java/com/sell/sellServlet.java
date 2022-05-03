@@ -147,6 +147,7 @@ public class sellServlet extends MyUploadServlet {
 			
 			String paging = util.paging(current_page, total_page, listUrl);
 			
+			req.setAttribute("dataCount", dataCount);
 			req.setAttribute("rCode", rCode);
 			req.setAttribute("regionList", regionList); // 지역 List
 			req.setAttribute("list", list); // 게시글 list
