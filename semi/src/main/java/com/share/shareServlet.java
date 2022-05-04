@@ -62,6 +62,10 @@ public class shareServlet extends MyUploadServlet {
 			shareApp(req, resp);
 		} else if(uri.indexOf("shareAppCancel.do") != -1) {
 			shareAppCancel(req, resp);
+		} else if(uri.indexOf("shareApp_ok.do") != -1) {
+			shareApp_ok(req, resp);
+		} else if(uri.indexOf("shareApp_no.do") != -1) {
+			shareApp_no(req, resp);
 		}
 	}
 	
@@ -473,6 +477,48 @@ public class shareServlet extends MyUploadServlet {
 		}
 		
 		resp.sendRedirect(cp + "/share/list.do?page=" + page);
+	}
+	
+	// 나눔거절
+	protected void shareApp_no(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		shareDAO dao = new shareDAO();
+		String cp = req.getContextPath();
+		
+		try {
+			shareDTO dto = new shareDTO();
+			
+			dto.setCode(Integer.parseInt(req.getParameter("code")));
+			
+			dao.shareApp(dto, 0);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/mypage/list.do");
+	}
+	
+	// 나눔승인
+	protected void shareApp_ok(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		shareDAO dao = new shareDAO();
+		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		try {
+			shareDTO dto = new shareDTO();
+			
+			dto.setCode(Integer.parseInt(req.getParameter("code")));
+			dto.setbId(info.getUserId());
+
+			dao.shareApp(dto, 2);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/mypage/list.do");
 	}
 	
 }

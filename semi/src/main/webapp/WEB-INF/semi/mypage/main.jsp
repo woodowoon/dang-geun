@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이페이지</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <jsp:include page="/WEB-INF/semi/layout/staticHeader.jsp"/>
 <style type="text/css">

@@ -680,7 +680,7 @@ public class shareDAO {
 				pstmt.setInt(2, status);
 				pstmt.setString(3, null);
 				pstmt.setInt(4, dto.getCode());
-			} else {
+			} else if(status == 2) {
 				pstmt.setString(1, dto.getbId());
 				pstmt.setInt(2, status);
 				pstmt.setString(3, "SYSDATE");

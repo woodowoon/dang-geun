@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.cmmu.CmmuDTO;
 import com.member.SessionInfo;
 import com.sell.sellDTO;
+import com.share.shareDTO;
 import com.util.MyUploadServlet;
 import com.util.MyUtil;
 
@@ -50,7 +51,10 @@ public class MyPageServlet extends MyUploadServlet{
 	
 	protected void main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		MyPageDAO dao = new MyPageDAO();
+		MypageShareDAO sdao = new MypageShareDAO();
+		
 		MyUtil util = new MyUtil();
+		
 		List<CmmuDTO> cmmuList = null;
 		String cp = req.getContextPath();
 		
@@ -60,8 +64,7 @@ public class MyPageServlet extends MyUploadServlet{
 		try {
 			// 커뮤니티
 			String articleUrl = cp + "/community/article.do?page=1";
-			String listUrl = cp+"/community/article.do";
-
+			
 			int rCode = info.getrCode();
 			String rName = dao.region(rCode);
 			String userId = info.getUserId();
@@ -115,8 +118,6 @@ public class MyPageServlet extends MyUploadServlet{
 			req.setAttribute("sellPaging", sellPaging);
 			req.setAttribute("sellArticleUrl", sellArticleUrl);
 			
-			
-			
 			// 판매 완료 상품			
 			String soldPage = req.getParameter("page"); // 판매 완료 페이지
 			
@@ -155,6 +156,85 @@ public class MyPageServlet extends MyUploadServlet{
 			req.setAttribute("soldTotal", soldTotal);
 			req.setAttribute("soldPaging", soldPaging);
 			req.setAttribute("itemCount", dao.dataCount("all", info.getUserId()));
+			
+			
+			// 나눔중
+			String sharePage = req.getParameter("page");
+			int shareCurrentPage = 1;
+			
+			if(sharePage != null) {
+				shareCurrentPage = Integer.parseInt(sharePage);
+			}
+			
+			int shareCount = sdao.dataCount("share", info.getUserId());
+			int shareTotal = util.pageCount(rows, shareCount);
+			if(shareCurrentPage > shareTotal) {
+				shareCurrentPage = shareTotal;
+			}
+			
+			int shareStart = (shareCurrentPage - 1) * rows + 1;
+			int shareEnd = shareCurrentPage * rows;
+			
+			List<shareDTO> sharelist = null;
+			sharelist = sdao.listShare(info.getUserId(), shareStart, shareEnd);
+			
+			String shareQuery = "sharePage=" + sharePage + "&shareCurrentPage=" + shareCurrentPage;
+			
+			String shareListUrl = cp + "/mypage/list.do";
+			String shareArticleUrl = cp + "/share/article.do";
+			if(shareQuery.length() != 0) {
+				shareListUrl += "?" + shareQuery;
+			}
+			
+			String sharePaging = util.paging(shareStart, shareTotal, shareListUrl);
+			
+			req.setAttribute("shareQuery", shareQuery);
+			req.setAttribute("shareCount", shareCount);
+			req.setAttribute("shareTotal", shareTotal);
+			req.setAttribute("shareCurrentPage", shareCurrentPage);
+			req.setAttribute("sharePage", sharePage);
+			req.setAttribute("sharelist", sharelist);
+			req.setAttribute("shareArticleUrl", shareArticleUrl);
+			req.setAttribute("sharePaging", sharePaging);
+			
+			// 나눔완료
+			String shareoutPage = req.getParameter("page");
+			
+			int shareoutCurrentPage = 1;
+			
+			if(shareoutPage != null) {
+				shareoutCurrentPage = Integer.parseInt(shareoutPage);
+			}
+			
+			int shareoutCount = sdao.dataCount("shareEnd", info.getUserId());
+			int shareoutTotal = util.pageCount(rows, shareoutCount);
+			if(shareoutCurrentPage > shareoutTotal) {
+				shareoutCurrentPage = shareoutTotal;
+			}
+			
+			int shareoutStart = (shareoutCurrentPage - 1) * rows + 1;
+			int shareoutEnd = shareoutCurrentPage * rows;
+			
+			List<shareDTO> shareoutList = null;
+			shareoutList = sdao.listShareEnd(info.getUserId(), shareoutStart, shareoutEnd);
+			
+			String shareoutQuery = "shareoutPage=" + shareoutPage + "&shareoutCurrentPage=" + shareoutCurrentPage;
+			
+			String shareoutListUrl = cp + "/mypage/list.do";
+			if(shareoutQuery.length() != 0) {
+				shareoutListUrl += "?" + shareoutQuery;
+			}
+			
+			String shareoutPaging = util.paging(shareoutCurrentPage, shareoutTotal, shareoutListUrl);
+			
+			req.setAttribute("shareoutPage", shareoutPage);
+			req.setAttribute("shareoutCurrentPage", shareoutCurrentPage);
+			req.setAttribute("shareoutCount", shareoutCount);
+			req.setAttribute("shareoutTotal", shareoutTotal);
+			req.setAttribute("shareoutList", shareoutList);
+			req.setAttribute("shareoutListUrl", shareoutListUrl);
+			req.setAttribute("shareoutQuery", shareoutQuery);
+			req.setAttribute("shareoutPaging", shareoutPaging);
 			
 			forward(req, resp, "/WEB-INF/semi/mypage/main.jsp");
 			
