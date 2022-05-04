@@ -1,2 +1,1 @@
-# semi01
-semi_project
+# 당근 게시판 
