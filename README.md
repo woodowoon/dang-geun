@@ -1,6 +1,6 @@
 # 당근프로젝트
 
-[image 테이블]![세미테이블](https://user-images.githubusercontent.com/67787525/172329526-ea76936d-145f-42b9-b4da-27a5b317f3e0.PNG)
+![세미테이블](https://user-images.githubusercontent.com/67787525/172329526-ea76936d-145f-42b9-b4da-27a5b317f3e0.PNG)
 
 
 ### 프로게트 목적
